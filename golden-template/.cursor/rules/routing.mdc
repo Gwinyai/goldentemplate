@@ -1,0 +1,57 @@
+# Routing & Layout Rules
+
+## Scope
+- Files under:
+  - `src/app/(public)/**`
+  - `src/app/(protected)/**`
+  - `src/app/api/**`
+
+## Goals
+- Keep routing consistent and predictable for the generator.
+- Clearly separate public, authenticated, and admin-only experiences.
+
+## Rules
+
+### Route groups
+
+- Use the following route groups and conventions:
+
+  - `(public)`:
+    - Public-facing routes: landing page, blog, login/register, etc.
+    - Examples:
+      - `/` → `src/app/(public)/page.tsx`
+      - `/login` → `src/app/(public)/login/page.tsx`
+      - `/register` → `src/app/(public)/register/page.tsx`
+      - `/blog` → `src/app/(public)/blog/page.tsx`
+      - `/blog/[slug]` → `src/app/(public)/blog/[slug]/page.tsx`
+
+  - `(protected)`:
+    - Authenticated user routes: dashboard, account, billing, admin.
+    - Examples:
+      - `/dashboard` → `src/app/(protected)/dashboard/page.tsx`
+      - `/account` → `src/app/(protected)/account/page.tsx`
+      - `/billing` → `src/app/(protected)/billing/page.tsx`
+
+  - `(protected)/admin`:
+    - Super admin routes.
+    - Examples:
+      - `/admin` → `src/app/(protected)/admin/page.tsx`
+      - `/admin/blog` → `src/app/(protected)/admin/blog/page.tsx`
+      - `/admin/users` → `src/app/(protected)/admin/users/page.tsx`
+
+### Layouts & Guards
+
+- `src/app/(public)/layout.tsx`:
+  - Wraps all public pages with the marketing shell (header/footer).
+- `src/app/(protected)/layout.tsx`:
+  - Must use a shared auth guard (e.g. `requireUser`) to ensure a signed-in user.
+  - Redirect or handle unauthenticated state gracefully (no crashes).
+- `src/app/(protected)/admin/layout.tsx`:
+  - Must use an admin guard (e.g. `requireAdmin`) built on top of `requireUser`.
+
+### New routes
+
+- When adding new public routes, place them under `(public)`.
+- When adding new authenticated user routes, place them under `(protected)`.
+- When adding new super admin-only routes, place them under `(protected)/admin`.
+- Do not introduce ad-hoc route groups that break this pattern without a strong reason.

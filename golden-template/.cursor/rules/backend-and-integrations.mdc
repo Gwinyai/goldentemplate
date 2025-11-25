@@ -1,0 +1,78 @@
+# Backend, Server Actions & Integrations Rules
+
+## Scope
+- Files:
+  - `src/app/**/actions.ts`
+  - `src/app/api/**/route.ts`
+  - `src/lib/integrations/**`
+  - `src/lib/auth/**`
+  - `src/lib/db/**`
+
+## Goals
+- Enforce a clear separation:
+  - User-initiated mutations → server actions.
+  - Third-party callbacks → API route handlers.
+- Isolate integration logic in `lib/integrations/*`.
+- Make the backend safe when integrations are not configured.
+
+## Rules
+
+### Server actions
+
+- All **user-initiated mutations** (form submissions, dashboard operations, admin changes) should be implemented as **server actions**.
+- Organize these server actions per feature in `actions.ts` files:
+  - Example:
+    - `src/app/(protected)/dashboard/actions.ts`
+    - `src/app/(protected)/billing/actions.ts`
+    - `src/app/(protected)/admin/blog/actions.ts`
+- Server actions may:
+  - Call database clients (`lib/db/*`).
+  - Call integration helpers (`lib/integrations/*`).
+  - Perform validation (Zod) and return typed results.
+
+### API routes
+
+- All **third-party callbacks and webhooks** must be implemented as `route.ts` handlers under `app/api/**`.
+- Examples:
+  - Stripe webhook:
+    - `src/app/api/webhooks/stripe/route.ts`
+  - LemonSqueezy webhook:
+    - `src/app/api/webhooks/lemonsqueezy/route.ts`
+- Webhook handlers must:
+  - Verify signatures when possible.
+  - Fail safely if environment variables are missing.
+  - Delegate business logic to integration helpers in `lib/integrations/*`.
+
+### Integrations
+
+- All integration-specific code must live under `src/lib/integrations/**`:
+  - Payments:
+    - `src/lib/integrations/stripe.ts`
+    - `src/lib/integrations/lemonsqueezy.ts`
+  - Email:
+    - `src/lib/integrations/email/resend.ts`
+    - `src/lib/integrations/email/mailgun.ts`
+  - Storage:
+    - `src/lib/integrations/storage/aws-s3.ts`
+    - `src/lib/integrations/storage/gcs.ts`
+    - `src/lib/integrations/storage/supabase-storage.ts`
+  - Analytics:
+    - `src/lib/integrations/analytics/google-analytics.ts`
+    - `src/lib/integrations/analytics/pulser.ts`
+- Integration modules should:
+  - Export type-safe functions with clear parameters and return types.
+  - Handle missing configuration gracefully (no crashes on import).
+  - Throw clear, descriptive errors only at call time when necessary env vars are missing.
+
+### Auth & DB
+
+- Auth-specific logic:
+  - `src/lib/auth/supabase-server.ts`
+  - `src/lib/auth/firebase-server.ts`
+  - `src/lib/auth/require-user.ts`
+  - `src/lib/auth/require-admin.ts`
+- DB client logic:
+  - `src/lib/db/supabase-client.ts`
+  - `src/lib/db/firebase-client.ts`
+- Do not directly use raw clients throughout the app:
+  - Prefer small helper functions in `lib/auth/*` and `lib/db/*`.

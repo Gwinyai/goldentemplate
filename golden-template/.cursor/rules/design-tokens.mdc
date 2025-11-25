@@ -1,0 +1,59 @@
+# Design Tokens & Theming Rules
+
+## Scope
+- Files:
+  - `src/design-tokens.ts`
+  - `tailwind.config.ts`
+  - `src/styles/**`
+  - `src/components/theme-provider.tsx`
+  - Any component that deals with colors, fonts, or theme mode
+
+## Goals
+- Make `src/design-tokens.ts` the *single source of truth* for visual identity.
+- Ensure Tailwind configuration derives from these tokens.
+- Prevent hardcoded hex colors and font names in components.
+
+## Rules
+
+### `src/design-tokens.ts`
+
+- Must export:
+  - A `DesignTokens` type describing:
+    - `brandName`
+    - `colors` (`primary`, `secondary`, `accent`, `neutral`)
+    - `themeMode` (`light` | `dark` | `system`)
+    - `fonts` (`primary`, `secondary`)
+    - `effects.gradients` and `effects.shadows`
+  - A `tokens: DesignTokens` constant.
+- `tokens` should use **placeholder values** that are easy for the generator to replace, e.g.:
+  - `__VG_BRAND_NAME__`
+  - `__VG_COLOR_PRIMARY__`
+  - `__VG_FONT_PRIMARY__`
+- Do **not** put:
+  - Logo paths or file IDs
+  - UI library specifics (no DaisyUI or Shadcn imports)
+  - Copy/content text (headlines, marketing copy)
+
+### Tailwind configuration
+
+- `tailwind.config.ts` must:
+  - Import `tokens` from `src/design-tokens.ts`.
+  - Map `tokens.colors.*` into `theme.extend.colors`.
+  - Map `tokens.fonts.*` into `theme.extend.fontFamily`.
+- Components should use Tailwind classes that ultimately derive from tokens, e.g.:
+  - `bg-primary`, `text-accent`, `font-heading`.
+
+### Theme Provider
+
+- A `ThemeProvider` component may:
+  - Read `tokens.themeMode` to initialize light/dark/system behavior.
+  - Set the appropriate class on `<html>` or `<body>`.
+- The theme provider must not:
+  - Hardcode unrelated design values that should live in `tokens`.
+  - Introduce a second, parallel theme system.
+
+### Components
+
+- Components **must not** hardcode hex colors or font names.
+- Always prefer utility classes (from Tailwind config) over inline styles for brand colors/fonts.
+- If a component needs specialized theming, derive from `tokens` or existing Tailwind theme config, not literals.

@@ -1,0 +1,19 @@
+# VibeGuide Golden Template - Cursor Rules
+
+This project uses modular cursor rules organized in the `.cursor/rules/` directory:
+
+- `general.mdc` - Repository-wide conventions and Next.js patterns
+- `design-tokens.mdc` - Design system and theming guidelines  
+- `routing.mdc` - Route group conventions and auth guards
+- `backend-and-integrations.mdc` - Server actions, API routes, and integrations
+- `config-and-env.mdc` - Configuration and environment variable management
+
+Please refer to the individual `.mdc` files in `.cursor/rules/` for detailed guidelines.
+
+## Quick Reference
+
+- Always use design tokens from `src/design-tokens.ts`
+- Follow route group patterns: `(public)`, `(protected)`, `(protected)/admin`
+- Keep integrations in `lib/integrations/*` with safe fallbacks
+- Use placeholder values like `__VG_BRAND_NAME__` for generator replacement
+- Implement user mutations as server actions, webhooks as API routes

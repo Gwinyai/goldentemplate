@@ -1,0 +1,63 @@
+/* VibeGuide Golden Template Theme Variables */
+
+/* Light theme (default) */
+.light {
+  --vg-primary: __VG_COLOR_PRIMARY__;
+  --vg-secondary: __VG_COLOR_SECONDARY__;
+  --vg-accent: __VG_COLOR_ACCENT__;
+  --vg-neutral: __VG_COLOR_NEUTRAL__;
+  
+  --vg-font-primary: __VG_FONT_PRIMARY__;
+  --vg-font-secondary: __VG_FONT_SECONDARY__;
+}
+
+/* Dark theme */
+.dark {
+  --vg-primary: __VG_COLOR_PRIMARY_DARK__;
+  --vg-secondary: __VG_COLOR_SECONDARY_DARK__;
+  --vg-accent: __VG_COLOR_ACCENT_DARK__;
+  --vg-neutral: __VG_COLOR_NEUTRAL_DARK__;
+}
+
+/* System theme (respects user preference) */
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    --vg-primary: __VG_COLOR_PRIMARY_DARK__;
+    --vg-secondary: __VG_COLOR_SECONDARY_DARK__;
+    --vg-accent: __VG_COLOR_ACCENT_DARK__;
+    --vg-neutral: __VG_COLOR_NEUTRAL_DARK__;
+  }
+}
+
+/* Utility classes for design tokens */
+.vg-primary {
+  color: var(--vg-primary);
+}
+
+.vg-bg-primary {
+  background-color: var(--vg-primary);
+}
+
+.vg-secondary {
+  color: var(--vg-secondary);
+}
+
+.vg-bg-secondary {
+  background-color: var(--vg-secondary);
+}
+
+.vg-accent {
+  color: var(--vg-accent);
+}
+
+.vg-bg-accent {
+  background-color: var(--vg-accent);
+}
+
+.vg-font-primary {
+  font-family: var(--vg-font-primary), system-ui, sans-serif;
+}
+
+.vg-font-secondary {
+  font-family: var(--vg-font-secondary), var(--vg-font-primary), system-ui, sans-serif;
+}

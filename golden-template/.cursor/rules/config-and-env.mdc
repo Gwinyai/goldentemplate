@@ -1,0 +1,58 @@
+# Configuration & Environment Rules
+
+## Scope
+- Files:
+  - `.env.example`
+  - `src/env.ts` (or equivalent)
+  - `lib/config/site.ts`
+  - `lib/config/nav.ts`
+  - `lib/config/features.ts`
+  - Any file using environment variables
+
+## Goals
+- Centralize configuration and secrets.
+- Make it easy for the template generator to adjust config and env requirements.
+- Prevent direct, scattered `process.env` access.
+
+## Rules
+
+### Environment variables
+
+- All expected environment variables must be declared in `.env.example` with comments grouping them by concern:
+  - Core app
+  - Supabase
+  - Firebase
+  - Payments (Stripe, LemonSqueezy)
+  - Email (Resend, Mailgun)
+  - Storage (AWS, GCS, Supabase Storage)
+  - Analytics (GA, Pulser)
+- Implement a typed env loader (e.g. `src/env.ts`) using Zod or similar:
+  - Parse `process.env`.
+  - Export an `env` object that is used everywhere instead of `process.env` directly.
+- Code throughout the app should use `env.X`, not `process.env.X`.
+
+### Site & navigation config
+
+- `lib/config/site.ts`:
+  - Must contain brand-level metadata:
+    - `name`, `tagline`, `description`, `url`, social links.
+  - Should use placeholder values (e.g. `__VG_BRAND_NAME__`) where the generator is expected to replace data.
+- `lib/config/nav.ts`:
+  - Must define navigational structures for:
+    - Public nav (marketing/header links).
+    - Dashboard/admin nav (sidebar, topbar).
+  - Keep this file declarative: no inline fetch calls or heavy logic.
+
+### Features config
+
+- `lib/config/features.ts`:
+  - Must define feature flags used by the app (e.g. `blog`, `userAccounts`, `admin`).
+  - The golden template may default all to `true`.
+  - The generator can overwrite this file based on `TemplateConfig.features`.
+
+### Generator-awareness
+
+- When adding new configurable behavior, prefer:
+  - Using clearly named placeholders (`__VG_*__`) in config files; and/or
+  - Adding explicit flags/fields in config modules that are easy to edit programmatically.
+- Avoid burying generator-sensitive values deep in component logic.

@@ -1,0 +1,29 @@
+# General Rules
+
+## Scope
+- Entire repository
+
+## Goals
+- Keep the golden template small, consistent, and easy to customize via a generator.
+- Make all visual styling derive from `src/design-tokens.ts` and Tailwind config.
+- Keep integration code isolated and safe when not configured.
+
+## Rules
+
+- Use **TypeScript** everywhere (`.ts` / `.tsx`) with strict settings.
+- Prefer **Next.js App Router** conventions:
+  - Use route groups `(public)`, `(protected)`, `(protected)/admin` as defined by the file structure.
+  - Use `route.ts` for API endpoints under `app/api/**`.
+- Do not introduce additional UI libraries beyond:
+  - Tailwind CSS
+  - Shadcn UI components in `components/ui/*`
+- Avoid hardcoding:
+  - Hex colors
+  - Font names
+  - URLs that should live in config (`lib/config/site.ts`, env variables).
+- When adding new features:
+  - Prefer creating small, focused components in `components/*`.
+  - Prefer configuration in `lib/config/*` instead of inline literals spread across pages.
+- Keep **generator-awareness**:
+  - Any value that should be customizable by the generator should use a clearly named placeholder or live in a config file.
+  - Do not move or rename core files (`src/design-tokens.ts`, `lib/config/site.ts`, `lib/config/features.ts`, `lib/integrations/*`) without updating the generator expectations.
