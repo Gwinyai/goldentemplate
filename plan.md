@@ -22,11 +22,11 @@ This plan outlines the step-by-step implementation of a Next.js 14+ golden templ
 ## Phase 2: Core Infrastructure
 
 ### 2.1 Authentication Layer
-- [ ] Create auth abstraction in `lib/auth/`
-- [ ] Implement Supabase server/client helpers
-- [ ] Create Firebase stubs (not fully wired)
-- [ ] Build `requireUser()` and `requireAdmin()` guards
-- [ ] Set up session management patterns
+- [x] Create auth abstraction in `lib/auth/`
+- [x] Implement Supabase server/client helpers
+- [x] Create Firebase stubs (not fully wired)
+- [x] Build `requireUser()` and `requireAdmin()` guards
+- [x] Set up session management patterns
 
 ### 2.2 Database & Storage
 - [ ] Create database client abstractions
