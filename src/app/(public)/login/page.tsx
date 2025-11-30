@@ -19,6 +19,23 @@ import {
 } from "@/components/ui";
 import { PageContainer } from "@/components/layout";
 
+// Helper function to validate redirect URLs for security
+const isValidRedirectUrl = (url: string): boolean => {
+  try {
+    // Only allow relative URLs or same-origin URLs
+    if (url.startsWith('/')) {
+      return true;
+    }
+    
+    // Check if it's a same-origin URL
+    const redirectUrl = new URL(url);
+    const currentOrigin = typeof window !== "undefined" ? window.location.origin : "";
+    return redirectUrl.origin === currentOrigin;
+  } catch {
+    return false;
+  }
+};
+
 export default function LoginPage() {
   const router = useRouter();
   const [formData, setFormData] = React.useState({
@@ -28,26 +45,50 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = React.useState(false);
   const [error, setError] = React.useState("");
 
+  // Get redirect parameter from URL
+  const redirectTo = React.useMemo(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      return params.get("redirect") || params.get("callbackUrl");
+    }
+    return null;
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setError("");
 
     try {
-      // TODO: Implement actual authentication
-      // This is a placeholder implementation
-      console.log("Login attempt:", formData);
-      
-      // Simulate API call delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // For demo purposes, accept any email/password combination
-      if (formData.email && formData.password) {
-        // TODO: Redirect to intended destination or dashboard
-        router.push("/dashboard");
-      } else {
-        setError("Please fill in all fields");
+      // Call the login API endpoint
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.error || "Login failed. Please try again.");
+        return;
       }
+
+      // Successful login - redirect based on priority:
+      // 1. Redirect parameter from URL
+      // 2. Role-based default (admin -> /admin, user -> /app)
+      let destination = "/app";
+      
+      if (redirectTo && isValidRedirectUrl(redirectTo)) {
+        destination = redirectTo;
+      } else if (data.isAdmin) {
+        destination = "/admin";
+      }
+      
+      router.push(destination);
+      router.refresh();
     } catch (err) {
       setError("Login failed. Please try again.");
       console.error("Login error:", err);

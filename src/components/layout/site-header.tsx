@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { tokens } from "@/design-tokens";
 import {
   Button,
@@ -12,6 +12,13 @@ import {
   DropdownItem,
   DropdownSeparator,
 } from "@/components/ui";
+import {
+  getConditionalNavigation,
+  isUserAccountsEnabled,
+  isAdminEnabled,
+  isBlogEnabled,
+  isBillingEnabled,
+} from "@/lib/config";
 
 interface NavigationItem {
   label: string;
@@ -29,28 +36,51 @@ interface SiteHeaderProps {
   } | null;
 }
 
-const publicNavigation: NavigationItem[] = [
-  { label: "Home", href: "/" },
-  { label: "Features", href: "/#features" },
-  { label: "Pricing", href: "/#pricing" },
-  { label: "Blog", href: "/blog" },
-];
-
-const userNavigation: NavigationItem[] = [
-  { label: "Dashboard", href: "/dashboard" },
-  { label: "Account", href: "/account" },
-  { label: "Billing", href: "/billing" },
-];
-
-const adminNavigation: NavigationItem[] = [
-  { label: "Admin", href: "/admin" },
-  { label: "Manage Blog", href: "/admin/blog" },
-  { label: "Manage Users", href: "/admin/users" },
-];
-
 export function SiteHeader({ user }: SiteHeaderProps) {
   const pathname = usePathname();
+  const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
+  const [isLoggingOut, setIsLoggingOut] = React.useState(false);
+
+  // Get conditional navigation based on feature flags
+  const {
+    publicNav: publicNavigation,
+    protectedNav: protectedNavigation,
+    accountDropdownNav: accountDropdownNavigation,
+    adminNav: adminNavigation,
+  } = React.useMemo(() => {
+    return getConditionalNavigation({
+      includeAuth: isUserAccountsEnabled(),
+      includeAdmin: isAdminEnabled(),
+      includeBlog: isBlogEnabled(),
+      includeBilling: isBillingEnabled(),
+    });
+  }, []);
+
+  // Convert to the expected format
+  const publicNavigationItems: NavigationItem[] = publicNavigation.map(item => ({
+    label: item.title,
+    href: item.href,
+    external: item.external,
+  }));
+
+  const protectedNavigationItems: NavigationItem[] = protectedNavigation.map(item => ({
+    label: item.title,
+    href: item.href,
+    external: item.external,
+  }));
+
+  const accountDropdownItems: NavigationItem[] = accountDropdownNavigation.map(item => ({
+    label: item.title,
+    href: item.href,
+    external: item.external,
+  }));
+
+  const adminNavigationItems: NavigationItem[] = adminNavigation.map(item => ({
+    label: item.title,
+    href: item.href,
+    external: item.external,
+  }));
 
   const isActive = (href: string) => {
     if (href === "/") {
@@ -61,12 +91,33 @@ export function SiteHeader({ user }: SiteHeaderProps) {
 
   const isAdmin = user?.role === "admin";
 
+  const handleLogout = async () => {
+    setIsLoggingOut(true);
+    try {
+      const response = await fetch("/api/auth/logout", {
+        method: "POST",
+      });
+
+      if (response.ok) {
+        // Redirect to home page and refresh
+        router.push("/");
+        router.refresh();
+      } else {
+        console.error("Logout failed");
+      }
+    } catch (error) {
+      console.error("Logout error:", error);
+    } finally {
+      setIsLoggingOut(false);
+    }
+  };
+
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center">
         {/* Logo/Brand */}
         <div className="flex items-center space-x-2">
-          <Link href="/" className="flex items-center space-x-2">
+          <Link href={user ? "/app" : "/"} className="flex items-center space-x-2">
             <div className="h-8 w-8 rounded bg-primary" />
             <span className="font-heading text-xl font-bold">
               {tokens.brandName}
@@ -76,57 +127,59 @@ export function SiteHeader({ user }: SiteHeaderProps) {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex flex-1 items-center justify-center space-x-6">
-          {publicNavigation.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`text-sm font-medium transition-colors hover:text-primary ${
-                isActive(item.href)
-                  ? "text-foreground"
-                  : "text-foreground/60"
-              }`}
-            >
-              {item.label}
-            </Link>
-          ))}
+          {user ? (
+            // Protected layout navigation - no marketing links
+            protectedNavigationItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`text-sm font-medium transition-colors hover:text-primary ${
+                  isActive(item.href)
+                    ? "text-foreground"
+                    : "text-foreground/60"
+                }`}
+              >
+                {item.label}
+              </Link>
+            ))
+          ) : (
+            // Public layout navigation - marketing links
+            publicNavigationItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`text-sm font-medium transition-colors hover:text-primary ${
+                  isActive(item.href)
+                    ? "text-foreground"
+                    : "text-foreground/60"
+                }`}
+              >
+                {item.label}
+              </Link>
+            ))
+          )}
         </nav>
 
         {/* User Actions */}
         <div className="flex items-center space-x-4">
           {user ? (
             <div className="flex items-center space-x-2">
-              {/* User Navigation */}
+              {/* Admin Navigation - single Admin link only */}
               <nav className="hidden lg:flex items-center space-x-4">
-                {userNavigation.map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className={`text-sm font-medium transition-colors hover:text-primary ${
-                      isActive(item.href)
-                        ? "text-foreground"
-                        : "text-foreground/60"
-                    }`}
-                  >
-                    {item.label}
-                  </Link>
-                ))}
-                {isAdmin && (
-                  <>
-                    <div className="h-4 w-px bg-border" />
-                    {adminNavigation.map((item) => (
-                      <Link
-                        key={item.href}
-                        href={item.href}
-                        className={`text-sm font-medium transition-colors hover:text-primary ${
-                          isActive(item.href)
-                            ? "text-foreground"
-                            : "text-foreground/60"
-                        }`}
-                      >
-                        {item.label}
-                      </Link>
-                    ))}
-                  </>
+                {isAdmin && adminNavigationItems.length > 0 && (
+                  adminNavigationItems.map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className={`text-sm font-medium transition-colors hover:text-primary ${
+                        isActive(item.href)
+                          ? "text-foreground"
+                          : "text-foreground/60"
+                      }`}
+                    >
+                      {item.label}
+                    </Link>
+                  ))
                 )}
               </nav>
 
@@ -161,39 +214,29 @@ export function SiteHeader({ user }: SiteHeaderProps) {
                     </div>
                   </div>
                   <DropdownSeparator />
-                  <DropdownItem asChild>
-                    <Link href="/dashboard">Dashboard</Link>
-                  </DropdownItem>
-                  <DropdownItem asChild>
-                    <Link href="/account">Account</Link>
-                  </DropdownItem>
-                  <DropdownItem asChild>
-                    <Link href="/billing">Billing</Link>
-                  </DropdownItem>
-                  {isAdmin && (
-                    <>
-                      <DropdownSeparator />
-                      <DropdownItem asChild>
-                        <Link href="/admin">Admin Panel</Link>
-                      </DropdownItem>
-                    </>
-                  )}
+                  {accountDropdownItems.map((item) => (
+                    <DropdownItem key={item.href} asChild>
+                      <Link href={item.href}>{item.label}</Link>
+                    </DropdownItem>
+                  ))}
                   <DropdownSeparator />
-                  <DropdownItem>
-                    Sign Out
+                  <DropdownItem onClick={handleLogout} disabled={isLoggingOut}>
+                    {isLoggingOut ? "Signing Out..." : "Sign Out"}
                   </DropdownItem>
                 </DropdownContent>
               </Dropdown>
             </div>
           ) : (
-            <div className="flex items-center space-x-2">
-              <Button variant="ghost" size="sm" asChild>
-                <Link href="/login">Sign In</Link>
-              </Button>
-              <Button size="sm" asChild>
-                <Link href="/register">Sign Up</Link>
-              </Button>
-            </div>
+            isUserAccountsEnabled() && (
+              <div className="flex items-center space-x-2">
+                <Button variant="ghost" size="sm" asChild>
+                  <Link href="/login">Sign In</Link>
+                </Button>
+                <Button size="sm" asChild>
+                  <Link href="/register">Sign Up</Link>
+                </Button>
+              </div>
+            )
           )}
 
           {/* Mobile Menu Button */}
@@ -231,25 +274,10 @@ export function SiteHeader({ user }: SiteHeaderProps) {
       {mobileMenuOpen && (
         <div className="md:hidden">
           <div className="space-y-1 px-2 pb-3 pt-2 border-t">
-            {publicNavigation.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`block px-3 py-2 text-base font-medium transition-colors hover:text-primary ${
-                  isActive(item.href)
-                    ? "text-foreground bg-accent/50"
-                    : "text-foreground/60"
-                }`}
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                {item.label}
-              </Link>
-            ))}
-            
-            {user && (
+            {user ? (
+              // Protected layout mobile navigation
               <>
-                <div className="border-t my-2" />
-                {userNavigation.map((item) => (
+                {protectedNavigationItems.map((item) => (
                   <Link
                     key={item.href}
                     href={item.href}
@@ -264,10 +292,11 @@ export function SiteHeader({ user }: SiteHeaderProps) {
                   </Link>
                 ))}
                 
-                {isAdmin && (
+                {/* Admin navigation */}
+                {isAdmin && adminNavigationItems.length > 0 && (
                   <>
                     <div className="border-t my-2" />
-                    {adminNavigation.map((item) => (
+                    {adminNavigationItems.map((item) => (
                       <Link
                         key={item.href}
                         href={item.href}
@@ -283,7 +312,40 @@ export function SiteHeader({ user }: SiteHeaderProps) {
                     ))}
                   </>
                 )}
+
+                {/* Account navigation */}
+                <div className="border-t my-2" />
+                {accountDropdownItems.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className={`block px-3 py-2 text-base font-medium transition-colors hover:text-primary ${
+                      isActive(item.href)
+                        ? "text-foreground bg-accent/50"
+                        : "text-foreground/60"
+                    }`}
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
               </>
+            ) : (
+              // Public layout mobile navigation
+              publicNavigationItems.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`block px-3 py-2 text-base font-medium transition-colors hover:text-primary ${
+                    isActive(item.href)
+                      ? "text-foreground bg-accent/50"
+                      : "text-foreground/60"
+                  }`}
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  {item.label}
+                </Link>
+              ))
             )}
           </div>
         </div>

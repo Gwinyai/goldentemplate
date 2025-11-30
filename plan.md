@@ -1,157 +1,164 @@
-# Implementation Plan: VibeGuide Golden Template
+# User Accounts Implementation Plan: VibeGuide Golden Template
 
 ## Overview
-This plan outlines the step-by-step implementation of a Next.js 14+ golden template that serves as a base for SaaS code generation. The template will be fully runnable and structured for easy customization by a generator service.
+This plan outlines the implementation of user account functionality and authentication system for the VibeGuide golden template. The focus is on integrating user accounts into the shared protected area (`/app`, `/account/*`, `/admin/*`) while maintaining clear separation of concerns between generator configuration and runtime behavior.
 
-## Phase 1: Foundation Setup
+**Note**: This plan focuses on user account functionality and how it integrates into the shared protected area (`/app`, `/account/*`, `/admin/*`). Public-facing website routes (marketing pages, public blog, etc.) remain unchanged.
 
-### 1.1 Project Structure & Configuration
-- [x] Create `golden-template/` directory structure
-- [x] Initialize Next.js 14+ project with App Router
-- [x] Configure TypeScript with strict settings
-- [x] Set up Tailwind CSS with custom configuration
-- [x] Configure ESLint, Prettier, and development tools
-- [x] Create `.env.example` with all required environment variables
+## Phase 1: Protected Route Structure (App, Account, Admin)
 
-### 1.2 Design System Foundation
-- [x] Implement `src/design-tokens.ts` with replaceable placeholders
-- [x] Configure `tailwind.config.ts` to use design tokens
-- [x] Create global CSS with theme variables
-- [x] Set up Shadcn UI base components
+### 1.1 Core Protected Layout
+- [x] Update `app/(protected)/layout.tsx` with global auth enforcement (`requireUser()`) and shared top nav
+- [x] Create main product route: `app/(protected)/app/page.tsx`
+- [x] Create account management routes:
+  - [x] `app/(protected)/account/profile/page.tsx`
+  - [x] `app/(protected)/account/billing/page.tsx`
+- [x] Ensure admin routes under `app/(protected)/admin/*` render under the same protected layout (or a nested `admin/layout.tsx`) and hook into the same auth system
 
-## Phase 2: Core Infrastructure
+## Phase 2: Authentication System
 
-### 2.1 Authentication Layer
-- [x] Create auth abstraction in `lib/auth/`
-- [x] Implement Supabase server/client helpers
-- [x] Create Firebase stubs (not fully wired)
-- [x] Build `requireUser()` and `requireAdmin()` guards
-- [x] Set up session management patterns
+### 2.1 Core Auth Infrastructure
+- [x] Implement `requireUser()` middleware for protected routes
+- [x] Create login/logout functionality with proper session management
+- [x] Set up auth provider integration (Supabase/Firebase abstractions)
+- [x] Implement redirect logic: successful login → `/admin` (if admin) or `/app` (if regular user)
 
-### 2.2 Database & Storage
-- [x] Create database client abstractions
-- [x] Set up Supabase client configuration
-- [x] Create Firebase client stubs
-- [x] Implement safe fallbacks for missing configurations
+### 2.2 User Roles & Permissions
+- [x] Define user object interface with `isAdmin` field (or equivalent role indicator)
+- [x] Implement role-based access control using `requireAdmin()`
+- [x] Add admin flag handling in user sessions and/or database
 
-### 2.3 Integration Stubs
-- [x] **Payments**: Stripe and LemonSqueezy integration stubs
-- [x] **Email**: Resend and Mailgun service stubs  
-- [x] **Storage**: AWS S3, GCS, and Supabase Storage stubs
-- [x] **Analytics**: Google Analytics and Pulser integration stubs
-- [x] **Webhooks**: API routes for payment and service webhooks
+### 2.3 Auth UI Components
+- [x] Create login form component
+- [x] Create user registration form
+- [x] Implement logout functionality
+- [x] Add loading states and error handling for auth flows
 
-## Phase 3: UI Components
+## Phase 3: Navigation & Layout Components
 
-### 3.1 Base UI Components (Shadcn)
-- [x] Button, Input, Card, Badge components
-- [x] Modal, Dropdown, Alert components  
-- [x] Form components (Textarea, Select)
-- [x] Ensure all components use design tokens
+### 3.1 Global Navigation
+- [x] Create top navigation bar with user authentication state
+- [x] Implement Account menu dropdown (Profile, Billing, Logout)
+- [x] Add conditional admin navigation:
+  - [x] If `admin.superAdminEnabled = true` and `user.isAdmin = true`: Show Admin link to `/admin`
+  - [x] If `user.isAdmin = false`: Hide admin navigation items
+- [ ] When `features.userAccounts = false`: Hide Login and Account menu items from the global navigation
 
-### 3.2 Layout Components
-- [x] Site header with navigation
-- [x] Site footer with links
-- [x] Dashboard shell with sidebar/topbar
-- [x] Admin shell with appropriate navigation
-- [x] Responsive layout patterns
+### 3.2 Protected Layout Shell
+- [x] Create shared layout component for `(protected)` route group
+- [ ] Implement breadcrumb navigation for `/app`, `/account/*`, `/admin/*`
+- [x] Add user avatar and quick actions in header
+- [x] Ensure consistent styling across all protected areas
 
-### 3.3 Marketing Components
-- [x] Hero section with CTAs
-- [x] Features grid with placeholder content
-- [x] Pricing section (subscription-ready)
-- [x] Testimonials section
-- [x] Blog listing and post components
+### 3.3 Account-Specific Components
+- [ ] User profile form with validation
+- [ ] Account settings management
+- [ ] Password change functionality
+- [ ] Account deletion workflow (with confirmations)
 
-### 3.4 Dashboard Components
-- [x] Sidebar navigation
-- [x] Top navigation bar
-- [x] Statistics cards with mock data
-- [x] Recent activity feed
-- [x] User profile components
+## Phase 4: Account Management & Billing
 
-## Phase 4: Application Routes
+### 4.1 Account Profile Management
+- [x] Implement `/account/profile` page with user information editing
+- [ ] Add profile image upload functionality
+- [ ] Create form validation for profile updates
+- [ ] Add success/error messaging for profile changes
 
-### 4.1 Public Routes (`(public)` route group)
-- [x] **Landing page** (`/`) - Marketing site with hero, features, pricing
-- [x] **Auth pages** (`/login`, `/register`) - Authentication forms
-- [x] **Blog system** (`/blog`, `/blog/[slug]`) - Public blog with mock posts
-- [x] Ensure all pages use placeholder content from config
+### 4.2 Billing Integration
+- [x] Create `/account/billing` page with subscription management
+- [ ] If `integrations.paymentsProvider` is `"stripe"` or `"lemonsqueezy"`:
+  - [ ] Show active Billing UI under `/account/billing`
+  - [ ] Include provider-specific labels and README notes
+- [x] If `integrations.paymentsProvider` is `"none"`:
+  - [x] Either hide Billing from the Account menu **or**
+  - [x] Show a clear "Billing not configured" stub UI
+- [x] Implement subscription status display
+- [x] Add billing history and invoice download functionality
 
-### 4.2 Protected Routes (`(protected)` route group)  
-- [ ] **Dashboard** (`/dashboard`) - User home with stats and navigation
-- [ ] **Account page** (`/account`) - User profile and settings
-- [ ] **Billing page** (`/billing`) - Subscription management stub
-- [ ] Implement auth guards for all protected routes
+### 4.3 App Dashboard Implementation
+- [x] Create main product dashboard at `/app`
+- [x] Add user-specific content and functionality
+- [x] Implement dashboard widgets and stats
+- [x] Add quick access to account settings and billing
 
-### 4.3 Admin Routes (`(protected)/admin` route group)
-- [ ] **Admin home** (`/admin`) - Admin dashboard overview
-- [ ] **Blog management** (`/admin/blog`) - CRUD interface for posts
-- [ ] **User management** (`/admin/users`) - User administration interface
-- [ ] Implement admin role checking
+## Phase 5: Admin Integration
 
-## Phase 5: API & Configuration
+### 5.1 Admin Auth & Navigation Integration
+- [x] Ensure all `app/(protected)/admin/*` routes are protected by `requireAdmin()` via `app/(protected)/admin/layout.tsx` or per-page usage
+- [x] Ensure admin users see admin navigation links in the global nav (e.g., a link to `/admin` or admin menu entry)
+- [x] Verify existing admin pages (Users, Analytics, Blog) work correctly under the new auth system
+- [x] Test that non-admin users cannot access `/admin/*` and are redirected appropriately (e.g., to `/app`)
 
-### 5.1 API Routes
-- [ ] Health check endpoint (`/api/health`)
-- [ ] Stripe webhook handler (`/api/webhooks/stripe`)
-- [ ] LemonSqueezy webhook handler (`/api/webhooks/lemonsqueezy`)
-- [ ] Ensure all webhooks are properly stubbed
+### 5.2 Admin Dashboard Enhancement
+- [ ] Update admin dashboard to integrate with user account system
+- [ ] Add user management functionality for admin users
+- [ ] Implement admin-only features and settings
+- [ ] Add audit logging for admin actions
 
-### 5.2 Configuration Files
-- [ ] **Site config** (`lib/config/site.ts`) - Brand, URLs, metadata
-- [ ] **Navigation config** (`lib/config/nav.ts`) - Menu structures
-- [ ] **Features config** (`lib/config/features.ts`) - Feature flags
-- [ ] Use placeholder tokens for generator replacement
+## Phase 6: Feature Flags & Config Integration
 
-### 5.3 Utilities & Helpers
-- [ ] Logger utility with different levels
-- [ ] Pagination helpers for lists
-- [ ] Data formatters (dates, currency, etc.)
-- [ ] Zod schemas for form validation
-- [ ] Template configuration types
+### 6.1 Runtime Config Modules
+- [ ] Create `lib/config/features.ts` with strongly-typed feature flags:
+  - `features.userAccounts`
+  - `features.blog`
+  - `features.admin` (or `admin.superAdminEnabled` applied here)
+- [ ] Create `lib/config/integrations.ts` to represent integration choices at runtime:
+  - `integrations.authDbPreset`
+  - `integrations.paymentsProvider`
+  - `integrations.storageProvider`
+  - `integrations.emailProvider`
+  - `integrations.analyticsProvider`
 
-## Phase 6: Documentation & Developer Experience
+### 6.2 App Usage
+- [ ] Ensure navigation, layouts, and feature-specific components:
+  - Import and use `features` and `integrations` from these config modules
+  - Do **not** reference `TemplateConfig` directly
+- [ ] Use these flags to conditionally show or hide:
+  - Login and Account UI (based on `features.userAccounts`)
+  - Admin nav and routes (based on admin flag)
+  - Blog links (based on `features.blog`)
+  - Billing UI (based on `integrations.paymentsProvider`)
 
-### 6.1 Documentation
-- [ ] `README.template.md` - Setup and configuration guide
-- [ ] `docs/TEMPLATE-PRD.template.md` - PRD skeleton for generated projects
-- [ ] `docs/TEMPLATE-USAGE.md` - How to extend and customize
-- [ ] Inline code comments for generator integration points
+### 6.3 Generator Responsibility (for reference)
+- [ ] The Cloud Run generator service will:
+  - Parse `TemplateConfig`
+  - Update `features.ts` and `integrations.ts` (and potentially related files) to match the requested configuration
+  - Leave clear TODO comments around disabled features where appropriate
 
-### 6.2 Developer Tools
-- [x] `.cursor/rules/*.mdc` – modular AI coding guidelines and conventions
-- [x] Optional minimal `.cursorrules` that simply points to `.cursor/rules` (for backwards compatibility)
-- [ ] ESLint configuration for consistency
-- [ ] Prettier configuration for formatting
-- [ ] TypeScript strict configuration
+## Phase 7: User Experience Flows
 
-The modular cursor rules are organized by concern:
-- **general.mdc** - Repository-wide conventions and Next.js patterns
-- **design-tokens.mdc** - Design system and theming guidelines
-- **routing.mdc** - Route group conventions and auth guards
-- **backend-and-integrations.mdc** - Server actions, API routes, and integrations
-- **config-and-env.mdc** - Configuration and environment variable management
+### 7.1 Authentication Flow
+- [ ] Implement login redirect logic:
+  - [ ] If `features.userAccounts = true`:
+    - [ ] Normal behavior: `/login` → on success, redirect to `/admin` (if `isAdmin`) or `/app` (if normal user)
+  - [ ] If `features.userAccounts = false`:
+    - [ ] The app should not expose `/login` via navigation
+    - [ ] (Optional) Hitting `/login` directly should either redirect to `/` or show a clear message that user accounts are disabled in this template
 
-These rules guide AI tools to:
-- Respect `design-tokens.ts` and Tailwind token usage
-- Follow routing conventions (`(public)`, `(protected)`, `(protected)/admin`)
-- Keep integration logic in `lib/integrations/*`
-- Centralize configuration and environment variables
+### 7.2 Access Control When User Accounts Are Disabled
+- [ ] If `features.userAccounts = false` and a user attempts to access `/app` or `/account/*`:
+  - [ ] Redirect to `/` **or** display a simple stub page: "User accounts are disabled in this template. Enable them via TemplateConfig to use `/app` and `/account` features."
+- [ ] Confirm there is no way to accidentally surface broken account UIs when user accounts are disabled
 
-## Phase 7: Testing & Validation
+### 7.3 User Onboarding & Setup
+- [ ] Create first-time user setup flow
+- [ ] Implement account verification process
+- [ ] Add welcome messages and guided tours
+- [ ] Ensure smooth transitions between auth states
 
-### 7.1 Integration Testing
-- [ ] Verify `npm install` and `npm run dev` work out of the box
-- [ ] Test all route navigation without errors
-- [ ] Validate responsive design across devices
-- [ ] Ensure all integration stubs are safe when unconfigured
+## Phase 8: Testing & Validation
 
-### 7.2 Code Quality
-- [ ] Run ESLint and fix all issues
-- [ ] Ensure TypeScript compilation with no errors
-- [ ] Validate all placeholder tokens are consistently named
-- [ ] Check that all TODO comments are properly marked
+### 8.1 User Account Testing
+- [ ] Test user registration and login flows
+- [ ] Verify account management functionality
+- [ ] Test admin access controls and permissions
+- [ ] Validate billing integration when enabled
+
+### 8.2 Feature Flag Testing
+- [ ] Test behavior when `features.userAccounts = false`
+- [ ] Verify navigation respects feature flags
+- [ ] Test graceful degradation of disabled features
+- [ ] Ensure no broken UI states when features are disabled
 
 ## Key Implementation Guidelines
 

@@ -58,15 +58,35 @@ export default function RegisterPage() {
         return;
       }
 
-      // TODO: Implement actual registration
-      console.log("Registration attempt:", formData);
-      
-      // Simulate API call delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // For demo purposes, accept any valid data
-      // TODO: Redirect to dashboard or onboarding flow
-      router.push("/dashboard");
+      // Call the registration API endpoint
+      const response = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.error || "Registration failed. Please try again.");
+        return;
+      }
+
+      // Successful registration
+      if (data.needsConfirmation) {
+        // Redirect to confirmation page or show message
+        router.push("/login?message=Please check your email to confirm your account");
+      } else {
+        // Auto-login and redirect to app
+        router.push("/app");
+        router.refresh();
+      }
     } catch (err) {
       setError("Registration failed. Please try again.");
       console.error("Registration error:", err);

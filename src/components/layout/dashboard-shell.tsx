@@ -18,10 +18,11 @@ interface DashboardShellProps {
   children: React.ReactNode;
   user: {
     id: string;
-    email: string;
-    name?: string;
-    avatar?: string;
-    role?: string;
+    email: string | null;
+    name: string | null;
+    avatar_url?: string | null;
+    created_at?: string;
+    updated_at?: string;
   };
 }
 
@@ -150,15 +151,15 @@ export function DashboardShell({ children, user }: DashboardShellProps) {
               <DropdownTrigger asChild>
                 <Button variant="ghost" size="sm" className="relative">
                   <div className="h-6 w-6 rounded-full bg-primary/20 flex items-center justify-center">
-                    {user.avatar ? (
+                    {user.avatar_url ? (
                       <img
-                        src={user.avatar}
-                        alt={user.name || user.email}
+                        src={user.avatar_url}
+                        alt={user.name || user.email || "User"}
                         className="h-6 w-6 rounded-full"
                       />
                     ) : (
                       <span className="text-xs font-medium">
-                        {(user.name || user.email)?.charAt(0).toUpperCase()}
+                        {(user.name || user.email || "U").charAt(0).toUpperCase()}
                       </span>
                     )}
                   </div>
@@ -171,7 +172,7 @@ export function DashboardShell({ children, user }: DashboardShellProps) {
                       <p className="font-medium">{user.name}</p>
                     )}
                     <p className="text-xs text-muted-foreground">
-                      {user.email}
+                      {user.email || "No email"}
                     </p>
                   </div>
                 </div>

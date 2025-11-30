@@ -23,7 +23,7 @@ export async function requireAdmin(): Promise<AdminUser> {
     
     if (!isAdmin) {
       // User is authenticated but not an admin
-      redirect("/dashboard");
+      redirect("/app");
     }
 
     return {
@@ -46,8 +46,8 @@ export async function requireAdmin(): Promise<AdminUser> {
       };
     }
 
-    // In production, redirect to dashboard if admin checking fails
-    redirect("/dashboard");
+    // In production, redirect to app if admin checking fails
+    redirect("/app");
   }
 }
 

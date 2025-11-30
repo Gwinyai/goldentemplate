@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import { headers } from "next/headers";
 import { getSupabaseUser } from "./supabase-server";
 
 export interface User {
@@ -32,8 +33,17 @@ export async function requireUser(): Promise<User> {
     // const firebaseUser = await getFirebaseUserFromCookie();
     // if (firebaseUser) { ... }
 
-    // No authenticated user found - redirect to login
-    redirect("/login");
+    // No authenticated user found - redirect to login with current URL as redirect parameter
+    try {
+      const headersList = headers();
+      const fullUrl = headersList.get("x-pathname") || headersList.get("referer") || "";
+      const currentPath = fullUrl.includes("://") ? new URL(fullUrl).pathname : fullUrl || "/app";
+      const loginUrl = `/login?redirect=${encodeURIComponent(currentPath)}`;
+      redirect(loginUrl);
+    } catch {
+      // Fallback if headers are not available
+      redirect("/login");
+    }
   } catch (error) {
     console.error("Error in requireUser:", error);
     

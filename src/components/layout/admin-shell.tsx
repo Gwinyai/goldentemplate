@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { tokens } from "@/design-tokens";
 import {
   Button,
@@ -16,15 +16,20 @@ import {
   AlertTitle,
   AlertDescription,
 } from "@/components/ui";
+import { isAdminEnabled, isBlogEnabled, isUserAccountsEnabled } from "@/lib/config";
 
 interface AdminShellProps {
   children: React.ReactNode;
   user: {
     id: string;
-    email: string;
-    name?: string;
-    avatar?: string;
-    role?: string;
+    email: string | null;
+    name: string | null;
+    avatar_url?: string | null;
+    created_at?: string;
+    updated_at?: string;
+    isAdmin: true;
+    adminRole?: "super" | "moderator";
+    permissions?: string[];
   };
 }
 
@@ -40,9 +45,10 @@ interface NavigationSection {
   }[];
 }
 
+// MVP Admin Navigation - only includes features that are actually implemented
 const adminNavigation: NavigationSection[] = [
   {
-    title: "Dashboard",
+    title: "Dashboard", 
     items: [
       {
         label: "Overview",
@@ -70,7 +76,7 @@ const adminNavigation: NavigationSection[] = [
     title: "Content Management",
     items: [
       {
-        label: "Blog Posts",
+        label: "Blog Posts", 
         href: "/admin/blog",
         description: "Manage blog content and posts",
         icon: (
@@ -79,26 +85,20 @@ const adminNavigation: NavigationSection[] = [
           </svg>
         ),
       },
-      {
-        label: "Pages",
-        href: "/admin/pages",
-        description: "Manage site pages and content",
-        icon: (
-          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-          </svg>
-        ),
-      },
-      {
-        label: "Media Library",
-        href: "/admin/media",
-        description: "Upload and manage media files",
-        icon: (
-          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-          </svg>
-        ),
-      },
+      // TODO: Pages and Media Library are out of scope for MVP
+      // Uncomment when implementing full CMS features:
+      // {
+      //   label: "Pages",
+      //   href: "/admin/pages", 
+      //   description: "Manage site pages and content",
+      //   disabled: true
+      // },
+      // {
+      //   label: "Media Library",
+      //   href: "/admin/media",
+      //   description: "Upload and manage media files", 
+      //   disabled: true
+      // },
     ],
   },
   {
@@ -107,67 +107,77 @@ const adminNavigation: NavigationSection[] = [
       {
         label: "Users",
         href: "/admin/users",
-        description: "Manage user accounts and permissions",
+        description: "Manage user accounts and basic admin status",
         icon: (
           <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" />
           </svg>
         ),
       },
-      {
-        label: "Roles & Permissions",
-        href: "/admin/roles",
-        description: "Configure user roles and access controls",
-        icon: (
-          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-          </svg>
-        ),
-      },
+      // TODO: Full roles & permissions system is out of scope for MVP
+      // Only basic isAdmin flag is supported currently
+      // Uncomment when implementing full RBAC:
+      // {
+      //   label: "Roles & Permissions",
+      //   href: "/admin/roles",
+      //   description: "Configure user roles and access controls",
+      //   disabled: true
+      // },
     ],
   },
-  {
-    title: "System",
-    items: [
-      {
-        label: "Settings",
-        href: "/admin/settings",
-        description: "System configuration and preferences",
-        icon: (
-          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-          </svg>
-        ),
-      },
-      {
-        label: "API Keys",
-        href: "/admin/api-keys",
-        description: "Manage API keys and integrations",
-        icon: (
-          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
-          </svg>
-        ),
-      },
-      {
-        label: "Logs",
-        href: "/admin/logs",
-        description: "View system logs and audit trail",
-        icon: (
-          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-          </svg>
-        ),
-      },
-    ],
-  },
+  // TODO: System settings are out of scope for MVP  
+  // Uncomment when implementing system configuration:
+  // {
+  //   title: "System",
+  //   items: [
+  //     {
+  //       label: "Settings", 
+  //       href: "/admin/settings",
+  //       description: "System configuration and preferences",
+  //       disabled: true
+  //     },
+  //     {
+  //       label: "API Keys",
+  //       href: "/admin/api-keys", 
+  //       description: "Manage API keys and integrations",
+  //       disabled: true
+  //     },
+  //   ],
+  // },
 ];
 
 export function AdminShell({ children, user }: AdminShellProps) {
   const pathname = usePathname();
+  const router = useRouter();
   const [sidebarCollapsed, setSidebarCollapsed] = React.useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
+  const [isLoggingOut, setIsLoggingOut] = React.useState(false);
+
+  // Filter navigation based on feature flags
+  const filteredNavigation = React.useMemo(() => {
+    return adminNavigation.filter(section => {
+      // Filter content management section based on blog feature
+      if (section.title === "Content Management") {
+        const items = section.items.filter(item => {
+          if (item.href === "/admin/blog") {
+            return isBlogEnabled();
+          }
+          return true;
+        });
+        return items.length > 0 ? { ...section, items } : false;
+      }
+      
+      // Filter user management section based on user accounts feature
+      if (section.title === "User Management") {
+        if (!isUserAccountsEnabled()) {
+          return false;
+        }
+        return section;
+      }
+      
+      return section;
+    }).filter(Boolean);
+  }, []);
 
   const isActive = (href: string) => {
     if (href === "/admin") {
@@ -176,8 +186,29 @@ export function AdminShell({ children, user }: AdminShellProps) {
     return pathname.startsWith(href);
   };
 
-  // Check if user is actually an admin
-  const isAdmin = user?.role === "admin";
+  // Check if user is actually an admin  
+  const isAdmin = user?.isAdmin === true;
+
+  const handleLogout = async () => {
+    setIsLoggingOut(true);
+    try {
+      const response = await fetch("/api/auth/logout", {
+        method: "POST",
+      });
+
+      if (response.ok) {
+        // Redirect to home page and refresh
+        router.push("/");
+        router.refresh();
+      } else {
+        console.error("Logout failed");
+      }
+    } catch (error) {
+      console.error("Logout error:", error);
+    } finally {
+      setIsLoggingOut(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -191,9 +222,9 @@ export function AdminShell({ children, user }: AdminShellProps) {
         </Alert>
       )}
 
-      {/* Top Bar */}
-      <header className="sticky top-0 z-40 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="flex h-16 items-center gap-4 px-4 lg:px-6">
+      {/* Admin Header - simplified to avoid double navigation */}
+      <header className="border-b bg-background">
+        <div className="flex h-12 items-center gap-4 px-4 lg:px-6">
           {/* Mobile Menu Button */}
           <Button
             variant="ghost"
@@ -218,81 +249,25 @@ export function AdminShell({ children, user }: AdminShellProps) {
             </svg>
           </Button>
 
-          {/* Brand */}
+          {/* Admin Dashboard Title */}
           <div className="flex items-center space-x-2">
-            <Link href="/admin" className="flex items-center space-x-2">
-              <div className="h-6 w-6 rounded bg-destructive" />
-              <span className="font-heading text-lg font-bold">
-                {tokens.brandName} Admin
-              </span>
-            </Link>
+            <span className="font-heading text-lg font-semibold">
+              Admin Dashboard
+            </span>
           </div>
-
-          {/* Admin Badge */}
-          <Badge variant="destructive">Admin Panel</Badge>
 
           {/* Spacer */}
           <div className="flex-1" />
 
-          {/* Top Bar Actions */}
-          <div className="flex items-center gap-2">
-            {/* Back to App */}
-            <Button variant="outline" size="sm" asChild>
-              <Link href="/dashboard">
-                <svg className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                </svg>
-                Back to App
-              </Link>
-            </Button>
-
-            {/* User Menu */}
-            <Dropdown>
-              <DropdownTrigger asChild>
-                <Button variant="ghost" size="sm" className="relative">
-                  <div className="h-6 w-6 rounded-full bg-destructive/20 flex items-center justify-center">
-                    {user.avatar ? (
-                      <img
-                        src={user.avatar}
-                        alt={user.name || user.email}
-                        className="h-6 w-6 rounded-full"
-                      />
-                    ) : (
-                      <span className="text-xs font-medium">
-                        {(user.name || user.email)?.charAt(0).toUpperCase()}
-                      </span>
-                    )}
-                  </div>
-                </Button>
-              </DropdownTrigger>
-              <DropdownContent align="end">
-                <div className="flex items-center justify-start gap-2 p-2">
-                  <div className="flex flex-col space-y-1 leading-none">
-                    {user.name && (
-                      <p className="font-medium">{user.name}</p>
-                    )}
-                    <p className="text-xs text-muted-foreground">
-                      {user.email}
-                    </p>
-                    <Badge variant="destructive" className="text-xs w-fit">
-                      Admin
-                    </Badge>
-                  </div>
-                </div>
-                <DropdownSeparator />
-                <DropdownItem asChild>
-                  <Link href="/dashboard">Dashboard</Link>
-                </DropdownItem>
-                <DropdownItem asChild>
-                  <Link href="/account">Account Settings</Link>
-                </DropdownItem>
-                <DropdownSeparator />
-                <DropdownItem>
-                  Sign Out
-                </DropdownItem>
-              </DropdownContent>
-            </Dropdown>
-          </div>
+          {/* Back to App Button */}
+          <Button variant="outline" size="sm" asChild>
+            <Link href="/app">
+              <svg className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+              </svg>
+              Back to App
+            </Link>
+          </Button>
         </div>
       </header>
 
@@ -305,7 +280,7 @@ export function AdminShell({ children, user }: AdminShellProps) {
         >
           <div className="flex-1 overflow-auto">
             <nav className="p-4 space-y-6">
-              {adminNavigation.map((section) => (
+              {filteredNavigation.map((section) => (
                 <div key={section.title}>
                   {!sidebarCollapsed && (
                     <h3 className="mb-2 px-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
@@ -371,13 +346,10 @@ export function AdminShell({ children, user }: AdminShellProps) {
               onClick={() => setMobileMenuOpen(false)}
             />
             <div className="fixed left-0 top-0 h-full w-80 border-r bg-background">
-              <div className="flex h-16 items-center gap-4 border-b px-4">
-                <div className="flex items-center space-x-2">
-                  <div className="h-6 w-6 rounded bg-destructive" />
-                  <span className="font-heading text-lg font-bold">
-                    {tokens.brandName} Admin
-                  </span>
-                </div>
+              <div className="flex h-12 items-center gap-4 border-b px-4">
+                <span className="font-heading text-lg font-semibold">
+                  Admin Dashboard
+                </span>
                 <div className="flex-1" />
                 <Button
                   variant="ghost"
@@ -392,7 +364,7 @@ export function AdminShell({ children, user }: AdminShellProps) {
               
               <div className="flex-1 overflow-auto">
                 <nav className="p-4 space-y-6">
-                  {adminNavigation.map((section) => (
+                  {filteredNavigation.map((section) => (
                     <div key={section.title}>
                       <h3 className="mb-2 px-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                         {section.title}
