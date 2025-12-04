@@ -188,20 +188,22 @@ export const contactSchemas = {
 };
 
 // Billing and subscription schemas
+const addressSchema = z.object({
+  street1: z.string().min(1, "Street address is required").max(100),
+  street2: z.string().max(100).optional(),
+  city: z.string().min(1, "City is required").max(50),
+  state: z.string().min(1, "State is required").max(50),
+  postalCode: z.string().min(1, "Postal code is required").max(20),
+  country: z.string().min(1, "Country is required").max(2),
+});
+
 export const billingSchemas = {
-  address: z.object({
-    street1: z.string().min(1, "Street address is required").max(100),
-    street2: z.string().max(100).optional(),
-    city: z.string().min(1, "City is required").max(50),
-    state: z.string().min(1, "State is required").max(50),
-    postalCode: z.string().min(1, "Postal code is required").max(20),
-    country: z.string().min(1, "Country is required").max(2),
-  }),
+  address: addressSchema,
 
   paymentMethod: z.object({
     type: z.enum(["card", "bank", "paypal"]),
     isDefault: z.boolean().default(false),
-    billingAddress: z.lazy(() => billingSchemas.address).optional(),
+    billingAddress: addressSchema.optional(),
   }),
 
   subscription: z.object({
@@ -209,13 +211,13 @@ export const billingSchemas = {
     interval: z.enum(["month", "year"]).default("month"),
     coupon: z.string().optional(),
     paymentMethodId: z.string().min(1, "Payment method is required"),
-    billingAddress: z.lazy(() => billingSchemas.address),
+    billingAddress: addressSchema,
   }),
 
   invoice: z.object({
     companyName: commonValidations.companyName.optional(),
     taxId: z.string().optional(),
-    billingAddress: z.lazy(() => billingSchemas.address),
+    billingAddress: addressSchema,
     email: commonValidations.email,
   }),
 };

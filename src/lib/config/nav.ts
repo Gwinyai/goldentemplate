@@ -195,7 +195,7 @@ export const adminNav: NavigationSection[] = [
 // Footer navigation
 export const footerNav: NavigationSection[] = [
   {
-    title: "__VG_FOOTER_SECTION_1__",
+    title: "Product",
     items: [
       {
         title: "Features",
@@ -216,7 +216,7 @@ export const footerNav: NavigationSection[] = [
     ],
   },
   {
-    title: "__VG_FOOTER_SECTION_2__",
+    title: "Company",
     items: [
       {
         title: "About",
@@ -237,7 +237,7 @@ export const footerNav: NavigationSection[] = [
     ],
   },
   {
-    title: "__VG_FOOTER_SECTION_3__",
+    title: "Legal",
     items: [
       {
         title: "Privacy Policy",
@@ -258,7 +258,7 @@ export const footerNav: NavigationSection[] = [
     ],
   },
   {
-    title: "__VG_FOOTER_SECTION_4__",
+    title: "Resources",
     items: [
       {
         title: "API Documentation",

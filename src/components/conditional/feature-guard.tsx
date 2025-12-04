@@ -140,7 +140,7 @@ export function withFeature<P extends object>(
       return (
         <FeatureGuard 
           feature={feature} 
-          fallback={fallback ? <fallback {...props} /> : undefined}
+          fallback={fallback ? React.createElement(fallback, props) : undefined}
         >
           <Component {...props} />
         </FeatureGuard>

@@ -35,7 +35,7 @@ export async function requireUser(): Promise<User> {
 
     // No authenticated user found - redirect to login with current URL as redirect parameter
     try {
-      const headersList = headers();
+      const headersList = await headers();
       const fullUrl = headersList.get("x-pathname") || headersList.get("referer") || "";
       const currentPath = fullUrl.includes("://") ? new URL(fullUrl).pathname : fullUrl || "/app";
       const loginUrl = `/login?redirect=${encodeURIComponent(currentPath)}`;

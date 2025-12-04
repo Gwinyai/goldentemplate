@@ -4,6 +4,7 @@
 export * from "./site";
 export * from "./nav";
 export * from "./features";
+export * from "./integrations";
 
 // Re-export commonly used items for convenience
 export { siteConfig, contactInfo, legalInfo, getConfigValue } from "./site";

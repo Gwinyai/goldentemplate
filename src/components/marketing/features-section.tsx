@@ -28,15 +28,17 @@ export function FeaturesSection({
   columns = 3,
 }: FeaturesSectionProps) {
   return (
-    <section className="py-16 sm:py-24">
-      <div className="container mx-auto px-6">
+    <section className="py-section-mobile md:py-section relative bg-background">
+      <div className="container mx-auto px-container-mobile md:px-container max-w-page">
         {/* Header */}
-        <div className="mx-auto max-w-3xl text-center mb-16">
-          <h2 className="text-3xl font-heading font-bold tracking-tight sm:text-4xl">
-            {title}
+        <div className="mx-auto max-w-4xl text-center mb-16">
+          <h2 className="text-4xl font-heading font-extrabold tracking-tight text-text-primary sm:text-5xl lg:text-6xl">
+            <span className="text-gradient-primary">
+              {title}
+            </span>
           </h2>
           {subtitle && (
-            <p className="mt-6 text-lg leading-8 text-muted-foreground">
+            <p className="mt-8 text-xl leading-relaxed text-text-secondary">
               {subtitle}
             </p>
           )}
@@ -47,29 +49,38 @@ export function FeaturesSection({
           {features.map((feature, index) => (
             <Card 
               key={index} 
-              className={`relative ${
+              className={`card-base card-hover relative group bg-surface border-border-light ${
                 feature.highlight 
-                  ? "ring-2 ring-primary shadow-lg" 
-                  : "hover:shadow-md transition-shadow"
+                  ? "ring-2 ring-primary/50 shadow-lg bg-gradient-primary/5" 
+                  : "hover:shadow-md hover:-translate-y-2 border-border-light/50"
               }`}
             >
               {feature.highlight && (
-                <div className="absolute -top-3 left-6">
-                  <span className="bg-primary text-primary-foreground px-3 py-1 text-xs font-semibold rounded-full">
-                    Popular
+                <div className="absolute -top-3 left-6 z-10">
+                  <span className="bg-gradient-primary text-text-inverse px-4 py-2 text-sm font-bold rounded-pill shadow-md">
+                    Most Popular
                   </span>
                 </div>
               )}
               
-              <CardHeader>
-                <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
-                  {feature.icon}
+              {/* Gradient overlay on hover */}
+              <div className="absolute inset-0 rounded-lg bg-gradient-to-br from-primary/0 to-secondary/0 group-hover:from-primary/5 group-hover:to-secondary/5 transition-all duration-300 pointer-events-none" />
+              
+              <CardHeader className="relative z-10 p-8">
+                <div className={`h-14 w-14 rounded-xl flex items-center justify-center mb-6 transition-all duration-300 ${
+                  feature.highlight 
+                    ? "bg-gradient-primary shadow-md" 
+                    : "bg-primary/10 group-hover:bg-gradient-primary group-hover:shadow-md"
+                }`}>
+                  <div className={feature.highlight ? "text-text-inverse" : "text-primary group-hover:text-text-inverse transition-colors"}>
+                    {feature.icon}
+                  </div>
                 </div>
-                <CardTitle className="text-xl">{feature.title}</CardTitle>
+                <CardTitle className="text-2xl font-heading font-bold text-text-primary group-hover:text-primary transition-colors">{feature.title}</CardTitle>
               </CardHeader>
               
-              <CardContent>
-                <CardDescription className="text-base">
+              <CardContent className="relative z-10 p-8 pt-0">
+                <CardDescription className="text-lg text-text-secondary leading-relaxed">
                   {feature.description}
                 </CardDescription>
               </CardContent>
@@ -81,70 +92,70 @@ export function FeaturesSection({
   );
 }
 
-// Default Features Section with placeholder content
+// Default Features Section with VibeGuide content
 export function DefaultFeaturesSection() {
   const defaultFeatures: Feature[] = [
     {
       icon: (
-        <svg className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+        <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
         </svg>
       ),
-      title: "__VG_FEATURE_1_TITLE__",
-      description: "__VG_FEATURE_1_DESCRIPTION__",
+      title: "Next.js 14 + TypeScript",
+      description: "Built on the latest Next.js with TypeScript, Tailwind CSS, and modern React patterns for maximum performance and developer experience.",
       highlight: true,
     },
     {
       icon: (
-        <svg className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+        <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
         </svg>
       ),
-      title: "__VG_FEATURE_2_TITLE__",
-      description: "__VG_FEATURE_2_DESCRIPTION__",
+      title: "Authentication Built-In",
+      description: "Complete auth system with social logins, email verification, password reset, and role-based access control out of the box.",
     },
     {
       icon: (
-        <svg className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
         </svg>
       ),
-      title: "__VG_FEATURE_3_TITLE__",
-      description: "__VG_FEATURE_3_DESCRIPTION__",
+      title: "Payments & Billing",
+      description: "Stripe integration with subscriptions, one-time payments, invoicing, and customer portal - everything you need to monetize.",
     },
     {
       icon: (
-        <svg className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4" />
+        <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4" />
         </svg>
       ),
-      title: "__VG_FEATURE_4_TITLE__",
-      description: "__VG_FEATURE_4_DESCRIPTION__",
+      title: "Database & ORM",
+      description: "PostgreSQL with Prisma ORM, migrations, seeding, and optimized queries. Switch to any database with ease.",
     },
     {
       icon: (
-        <svg className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+        <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
         </svg>
       ),
-      title: "__VG_FEATURE_5_TITLE__",
-      description: "__VG_FEATURE_5_DESCRIPTION__",
+      title: "Deploy Anywhere",
+      description: "One-click deployment to Vercel, Netlify, or any hosting platform. Docker support and CI/CD workflows included.",
     },
     {
       icon: (
-        <svg className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+        <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
       ),
-      title: "__VG_FEATURE_6_TITLE__",
-      description: "__VG_FEATURE_6_DESCRIPTION__",
+      title: "Production Ready",
+      description: "Error handling, logging, monitoring, testing, and security best practices. Scale from MVP to millions of users.",
     },
   ];
 
   return (
     <FeaturesSection
-      title="__VG_FEATURES_SECTION_TITLE__"
-      subtitle="__VG_FEATURES_SECTION_SUBTITLE__"
+      title="Everything You Need to Ship Fast"
+      subtitle="Stop wasting time on boilerplate. Focus on building features that matter with our battle-tested foundation."
       features={defaultFeatures}
       columns={3}
     />

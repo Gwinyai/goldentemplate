@@ -1,6 +1,5 @@
 import React from "react";
 import Link from "next/link";
-import { tokens } from "@/design-tokens";
 import { Button, Badge } from "@/components/ui";
 
 interface HeroSectionProps {
@@ -35,13 +34,16 @@ export function HeroSection({
   image,
 }: HeroSectionProps) {
   return (
-    <section className="relative overflow-hidden bg-background py-16 sm:py-24 lg:py-32">
-      {/* Background Elements */}
+    <section className="relative overflow-hidden bg-gradient-background py-section-mobile md:py-section">
+      {/* Animated Background Elements */}
       <div className="absolute inset-0 -z-10">
-        <div className="absolute inset-y-0 right-1/2 -z-10 mr-16 w-[200%] origin-bottom-left skew-x-[-30deg] bg-accent/5 shadow-xl shadow-accent/10 ring-1 ring-accent/10 sm:mr-28 lg:mr-0 xl:mr-16 xl:origin-center" />
+        <div className="absolute inset-0 bg-gradient-primary/5" />
+        <div className="absolute top-1/4 -left-1/4 w-1/2 h-1/2 rounded-full bg-gradient-primary/10 blur-3xl animate-pulse" />
+        <div className="absolute bottom-1/4 -right-1/4 w-1/2 h-1/2 rounded-full bg-gradient-secondary/10 blur-3xl animate-pulse" style={{animationDelay: '2s'}} />
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
       </div>
 
-      <div className="container mx-auto px-6">
+      <div className="container mx-auto px-container-mobile md:px-container max-w-page">
         <div className="lg:grid lg:grid-cols-12 lg:gap-8">
           {/* Content */}
           <div className="lg:col-span-7">
@@ -52,22 +54,25 @@ export function HeroSection({
                   {badge.href ? (
                     <Link
                       href={badge.href}
-                      className="inline-flex items-center gap-x-2 rounded-full bg-accent/10 px-4 py-2 text-sm font-semibold text-accent ring-1 ring-inset ring-accent/20 hover:bg-accent/20 transition-colors"
+                      className="inline-flex items-center gap-x-3 rounded-full bg-surface/80 backdrop-blur-sm px-4 py-2 text-sm ring-1 ring-border/30 hover:ring-border/50 transition-all duration-200 hover:scale-105"
                     >
-                      <span>{badge.text}</span>
-                      <svg
-                        className="h-3 w-3"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M13 7l5 5m0 0l-5 5m5-5H6"
-                        />
-                      </svg>
+                      <span className="bg-white px-3 py-1 rounded-full text-xs font-semibold text-gray-800">New</span>
+                      <span className="text-muted-foreground font-medium text-sm">Claude Skills and Rules</span>
+                      <div className="flex items-center justify-center w-5 h-5 bg-gray-100 rounded-full">
+                        <svg
+                          className="h-3 w-3 text-gray-600"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 5l7 7-7 7"
+                          />
+                        </svg>
+                      </div>
                     </Link>
                   ) : (
                     <Badge variant="secondary" className="mb-4">
@@ -78,22 +83,46 @@ export function HeroSection({
               )}
 
               {/* Headlines */}
-              <h1 className="text-4xl font-heading font-bold tracking-tight text-foreground sm:text-6xl">
-                {headline}
+              <h1 className="text-5xl font-heading font-extrabold tracking-tight text-text-primary sm:text-6xl lg:text-7xl animate-fade-in">
+                <span className="text-gradient-primary">
+                  {headline}
+                </span>
               </h1>
-              <p className="mt-6 text-lg leading-8 text-muted-foreground">
+              <p className="mt-8 text-xl leading-relaxed text-text-secondary animate-slide-in">
                 {subheadline}
               </p>
 
               {/* CTAs */}
-              <div className="mt-10 flex items-center gap-4">
-                <Button size="lg" asChild>
+              <div className="mt-12 flex flex-col sm:flex-row items-center gap-4 animate-slide-in">
+                <Button 
+                  size="lg" 
+                  className="btn-primary px-8 py-4 text-lg rounded-lg"
+                  asChild
+                >
                   <Link href={primaryCta.href}>
                     {primaryCta.text}
+                    <svg
+                      className="ml-2 h-5 w-5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M13 7l5 5m0 0l-5 5m5-5H6"
+                      />
+                    </svg>
                   </Link>
                 </Button>
                 {secondaryCta && (
-                  <Button variant="outline" size="lg" asChild>
+                  <Button 
+                    variant="outline" 
+                    size="lg" 
+                    className="btn-secondary px-8 py-4 text-lg rounded-lg"
+                    asChild
+                  >
                     <Link href={secondaryCta.href}>
                       {secondaryCta.text}
                     </Link>
@@ -101,28 +130,65 @@ export function HeroSection({
                 )}
               </div>
 
+              {/* Social Proof */}
+              <div className="mt-12">
+                <div className="flex items-center gap-4 text-sm text-text-muted">
+                  <div className="flex -space-x-2">
+                    <div className="h-8 w-8 rounded-full bg-gradient-primary ring-2 ring-surface shadow-sm flex items-center justify-center">
+                      <span className="text-xs font-bold text-white">S</span>
+                    </div>
+                    <div className="h-8 w-8 rounded-full bg-gradient-secondary ring-2 ring-surface shadow-sm flex items-center justify-center">
+                      <span className="text-xs font-bold text-white">M</span>
+                    </div>
+                    <div className="h-8 w-8 rounded-full bg-gradient-accent ring-2 ring-surface shadow-sm flex items-center justify-center">
+                      <span className="text-xs font-bold text-white">E</span>
+                    </div>
+                    <div className="h-8 w-8 rounded-full bg-gradient-primary ring-2 ring-surface shadow-sm flex items-center justify-center">
+                      <span className="text-xs font-bold text-white">D</span>
+                    </div>
+                    <div className="h-8 w-8 rounded-full bg-gradient-secondary ring-2 ring-surface shadow-sm flex items-center justify-center text-xs font-bold text-white">
+                      +964
+                    </div>
+                  </div>
+                  <div>
+                    <p className="font-semibold text-text-primary">967+ developers</p>
+                    <p className="text-text-muted">Already on VibeGuide</p>
+                  </div>
+                  <div className="flex items-center gap-1 ml-4">
+                    {[...Array(5)].map((_, i) => (
+                      <svg key={i} className="h-4 w-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                      </svg>
+                    ))}
+                    <span className="ml-2 font-medium text-text-primary">4.8</span>
+                  </div>
+                </div>
+              </div>
+
               {/* Features */}
               {features && features.length > 0 && (
-                <div className="mt-10">
-                  <div className="flex flex-wrap gap-6">
+                <div className="mt-12">
+                  <div className="flex flex-wrap gap-8">
                     {features.map((feature, index) => (
                       <div
                         key={index}
-                        className="flex items-center gap-2 text-sm text-muted-foreground"
+                        className="flex items-center gap-3 text-base text-text-secondary font-medium"
                       >
-                        <svg
-                          className="h-4 w-4 text-primary"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M5 13l4 4L19 7"
-                          />
-                        </svg>
+                        <div className="flex-shrink-0 h-6 w-6 rounded-full bg-gradient-primary flex items-center justify-center">
+                          <svg
+                            className="h-3 w-3 text-text-inverse"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={3}
+                              d="M5 13l4 4L19 7"
+                            />
+                          </svg>
+                        </div>
                         {feature}
                       </div>
                     ))}
@@ -137,16 +203,17 @@ export function HeroSection({
             <div className="relative">
               {image ? (
                 <img
-                  className="aspect-[3/2] w-full rounded-2xl bg-muted object-cover shadow-2xl ring-1 ring-border"
+                  className="aspect-[4/3] w-full rounded-xl bg-surface object-contain shadow-xl p-8"
                   src={image.src}
                   alt={image.alt}
                 />
               ) : (
-                <div className="aspect-[3/2] w-full rounded-2xl bg-gradient-to-br from-primary/20 to-accent/20 shadow-2xl ring-1 ring-border flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="h-16 w-16 rounded-full bg-primary/20 mx-auto flex items-center justify-center mb-4">
+                <div className="aspect-[3/2] w-full rounded-xl bg-gradient-primary shadow-lg ring-1 ring-primary/20 flex items-center justify-center relative overflow-hidden group animate-scale-in">
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-black/10" />
+                  <div className="text-center relative z-10">
+                    <div className="h-24 w-24 rounded-xl bg-white/20 backdrop-blur-sm mx-auto flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300">
                       <svg
-                        className="h-8 w-8 text-primary"
+                        className="h-12 w-12 text-text-inverse"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -154,32 +221,23 @@ export function HeroSection({
                         <path
                           strokeLinecap="round"
                           strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M13 10V3L4 14h7v7l9-11h-7z"
+                          strokeWidth={1.5}
+                          d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
                         />
                       </svg>
                     </div>
-                    <p className="text-sm font-medium text-muted-foreground">
-                      {tokens.brandName} Platform
+                    <p className="text-lg font-bold text-text-inverse drop-shadow-lg">
+                      VibeGuide Platform
+                    </p>
+                    <p className="text-sm text-text-inverse/80 mt-2">
+                      Boilerplate Generator
                     </p>
                   </div>
+                  {/* Shimmer effect */}
+                  <div className="shimmer opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 </div>
               )}
 
-              {/* Floating Stats/Badges */}
-              <div className="absolute -bottom-4 -left-4 rounded-2xl bg-background p-4 shadow-lg ring-1 ring-border lg:-left-6">
-                <div className="flex items-center gap-3">
-                  <div className="flex -space-x-2">
-                    <div className="h-8 w-8 rounded-full bg-primary ring-2 ring-background" />
-                    <div className="h-8 w-8 rounded-full bg-accent ring-2 ring-background" />
-                    <div className="h-8 w-8 rounded-full bg-secondary ring-2 ring-background" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-semibold">__VG_CUSTOMER_COUNT__+ users</p>
-                    <p className="text-xs text-muted-foreground">trusted worldwide</p>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -188,29 +246,28 @@ export function HeroSection({
   );
 }
 
-// Default Hero Section with placeholder content
+// Default Hero Section with VibeGuide content
 export function DefaultHeroSection() {
   return (
     <HeroSection
       badge={{
-        text: "🚀 Now in Beta - Join Early Access",
-        href: "/register",
+        text: "New: Claude Skills and Rules",
+        href: "/features",
       }}
-      headline="__VG_HERO_HEADLINE__"
-      subheadline="__VG_HERO_SUBHEADLINE__"
+      headline="Build Production-Ready SaaS Faster"
+      subheadline="VibeGuide provides battle-tested boilerplates with authentication, payments, database, and deployment - so you can focus on what makes your product unique."
       primaryCta={{
-        text: "Get Started Free",
+        text: "Start Building",
         href: "/register",
       }}
       secondaryCta={{
-        text: "View Demo",
-        href: "#demo",
+        text: "Features",
+        href: "#features",
       }}
-      features={[
-        "__VG_FEATURE_1__",
-        "__VG_FEATURE_2__",
-        "__VG_FEATURE_3__",
-      ]}
+      image={{
+        src: "/hero.png",
+        alt: "VibeGuide Platform - Launch faster",
+      }}
     />
   );
 }

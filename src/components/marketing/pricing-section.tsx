@@ -47,12 +47,16 @@ export function PricingSection({
   };
 
   return (
-    <section className="py-16 sm:py-24 bg-muted/50">
+    <section className="py-16 sm:py-24 relative overflow-hidden">
+      {/* Background gradient */}
+      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-muted/30 via-background to-muted/30" />
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_50%_50%,rgba(99,102,241,0.05),transparent_70%)]" />
+      
       <div className="container mx-auto px-6">
         {/* Header */}
         <div className="mx-auto max-w-3xl text-center mb-16">
           <h2 className="text-3xl font-heading font-bold tracking-tight sm:text-4xl">
-            {title}
+            <span className="text-gradient-primary">{title}</span>
           </h2>
           {subtitle && (
             <p className="mt-6 text-lg leading-8 text-muted-foreground">
@@ -63,12 +67,12 @@ export function PricingSection({
           {/* Billing Toggle */}
           {billingToggle && (
             <div className="mt-8 flex items-center justify-center">
-              <div className="flex items-center rounded-full bg-background p-1 shadow-sm">
+              <div className="flex items-center rounded-full bg-background p-1.5 shadow-lg ring-1 ring-border/50">
                 <button
                   onClick={() => setBilling("monthly")}
-                  className={`rounded-full px-6 py-2 text-sm font-medium transition-all ${
+                  className={`rounded-full px-6 py-2.5 text-sm font-semibold transition-all duration-300 ${
                     billing === "monthly"
-                      ? "bg-primary text-primary-foreground shadow-sm"
+                      ? "bg-gradient-primary text-white shadow-primary"
                       : "text-muted-foreground hover:text-foreground"
                   }`}
                 >
@@ -76,14 +80,14 @@ export function PricingSection({
                 </button>
                 <button
                   onClick={() => setBilling("yearly")}
-                  className={`rounded-full px-6 py-2 text-sm font-medium transition-all ${
+                  className={`rounded-full px-6 py-2.5 text-sm font-semibold transition-all duration-300 relative ${
                     billing === "yearly"
-                      ? "bg-primary text-primary-foreground shadow-sm"
+                      ? "bg-gradient-primary text-white shadow-primary"
                       : "text-muted-foreground hover:text-foreground"
                   }`}
                 >
                   Yearly
-                  <span className="ml-2 text-xs bg-accent text-accent-foreground px-2 py-1 rounded-full">
+                  <span className="ml-2 text-xs bg-accent text-white px-2 py-0.5 rounded-full font-bold shadow-sm">
                     Save 20%
                   </span>
                 </button>
@@ -103,33 +107,39 @@ export function PricingSection({
             return (
               <Card 
                 key={index}
-                className={`relative ${
+                className={`relative group transition-all duration-300 ${
                   plan.popular 
-                    ? "ring-2 ring-primary shadow-lg scale-105" 
-                    : "hover:shadow-md transition-shadow"
+                    ? "ring-2 ring-primary shadow-primary-lg scale-105 bg-gradient-to-br from-primary/5 to-secondary/5" 
+                    : "hover:shadow-xl hover:-translate-y-1 border-border/50"
                 }`}
               >
                 {plan.popular && (
-                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                    <Badge className="bg-primary text-primary-foreground">
-                      Most Popular
-                    </Badge>
-                  </div>
+                  <>
+                    <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 z-10">
+                      <Badge className="bg-gradient-primary text-white shadow-primary px-4 py-1.5 font-bold">
+                        Most Popular
+                      </Badge>
+                    </div>
+                    {/* Subtle glow effect */}
+                    <div className="absolute inset-0 rounded-lg bg-gradient-to-br from-primary/5 to-secondary/5 -z-10" />
+                  </>
                 )}
 
-                <CardHeader className="text-center pb-8">
-                  <CardTitle className="text-xl">{plan.name}</CardTitle>
+                <CardHeader className="text-center pb-8 relative z-10">
+                  <CardTitle className={`text-xl ${plan.popular ? "text-gradient-primary" : ""}`}>
+                    {plan.name}
+                  </CardTitle>
                   <CardDescription className="text-base mt-2">
                     {plan.description}
                   </CardDescription>
                   
                   <div className="mt-6">
                     <div className="flex items-center justify-center">
-                      <span className="text-4xl font-bold">
+                      <span className={`text-4xl font-bold ${plan.popular ? "text-gradient-primary" : ""}`}>
                         {formatPrice(currentPrice, plan.price.currency)}
                       </span>
                       {currentPrice > 0 && (
-                        <span className="text-muted-foreground ml-2">
+                        <span className="text-muted-foreground ml-2 text-base">
                           /{billing === "monthly" ? "month" : "year"}
                         </span>
                       )}
@@ -173,13 +183,28 @@ export function PricingSection({
 
                 <CardFooter>
                   <Button 
-                    className="w-full" 
+                    className={`w-full ${plan.popular ? "bg-gradient-primary hover:shadow-primary-lg shadow-primary" : "border-primary/20 hover:bg-primary/5"} transition-all duration-300`}
                     variant={plan.popular ? "default" : "outline"}
                     size="lg"
                     asChild
                   >
                     <Link href={plan.ctaHref}>
                       {plan.ctaText}
+                      {plan.popular && (
+                        <svg
+                          className="ml-2 h-4 w-4"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M13 7l5 5m0 0l-5 5m5-5H6"
+                          />
+                        </svg>
+                      )}
                     </Link>
                   </Button>
                 </CardFooter>
@@ -231,10 +256,10 @@ export function DefaultPricingSection() {
         currency: "USD",
       },
       features: [
-        "__VG_PLAN_STARTER_FEATURE_1__",
-        "__VG_PLAN_STARTER_FEATURE_2__",
-        "__VG_PLAN_STARTER_FEATURE_3__",
-        "__VG_PLAN_STARTER_FEATURE_4__",
+        "Complete Next.js 14 + TypeScript setup",
+        "Authentication with multiple providers",
+        "Basic UI components library",
+        "Community support & documentation",
       ],
       ctaText: "Get Started Free",
       ctaHref: "/register",
@@ -249,12 +274,12 @@ export function DefaultPricingSection() {
         currency: "USD",
       },
       features: [
-        "__VG_PLAN_PRO_FEATURE_1__",
-        "__VG_PLAN_PRO_FEATURE_2__",
-        "__VG_PLAN_PRO_FEATURE_3__",
-        "__VG_PLAN_PRO_FEATURE_4__",
-        "__VG_PLAN_PRO_FEATURE_5__",
-        "__VG_PLAN_PRO_FEATURE_6__",
+        "Everything in Starter plan",
+        "Advanced payment integration (Stripe)",
+        "Email automation & templates",
+        "Analytics & monitoring setup",
+        "Premium UI components",
+        "Priority support & updates",
       ],
       popular: true,
       ctaText: "Start Free Trial",
@@ -271,14 +296,14 @@ export function DefaultPricingSection() {
         currency: "USD",
       },
       features: [
-        "__VG_PLAN_ENTERPRISE_FEATURE_1__",
-        "__VG_PLAN_ENTERPRISE_FEATURE_2__",
-        "__VG_PLAN_ENTERPRISE_FEATURE_3__",
-        "__VG_PLAN_ENTERPRISE_FEATURE_4__",
-        "__VG_PLAN_ENTERPRISE_FEATURE_5__",
-        "__VG_PLAN_ENTERPRISE_FEATURE_6__",
-        "__VG_PLAN_ENTERPRISE_FEATURE_7__",
-        "__VG_PLAN_ENTERPRISE_FEATURE_8__",
+        "Everything in Professional plan",
+        "Multi-tenant architecture",
+        "Advanced role-based permissions",
+        "Custom integrations & webhooks",
+        "White-label customization",
+        "Dedicated account manager",
+        "Custom onboarding & training",
+        "99.9% SLA guarantee",
       ],
       ctaText: "Contact Sales",
       ctaHref: "/contact",
@@ -289,8 +314,8 @@ export function DefaultPricingSection() {
 
   return (
     <PricingSection
-      title="__VG_PRICING_SECTION_TITLE__"
-      subtitle="__VG_PRICING_SECTION_SUBTITLE__"
+      title="Choose Your Perfect Plan"
+      subtitle="Start building faster with VibeGuide. All plans include our core boilerplate and essential integrations."
       plans={defaultPlans}
       billingToggle={true}
       defaultBilling="monthly"

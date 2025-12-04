@@ -211,10 +211,10 @@ export function AdminShell({ children, user }: AdminShellProps) {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-surface">
       {/* Admin Access Warning */}
       {!isAdmin && (
-        <Alert variant="destructive" className="border-0 rounded-none">
+        <Alert variant="destructive" className="border-0 rounded-none shadow-md">
           <AlertTitle>Access Denied</AlertTitle>
           <AlertDescription>
             You do not have admin privileges to access this area.
@@ -223,7 +223,7 @@ export function AdminShell({ children, user }: AdminShellProps) {
       )}
 
       {/* Admin Header - simplified to avoid double navigation */}
-      <header className="border-b bg-background">
+      <header className="border-b border-border/40 bg-gradient-to-r from-danger/5 via-background to-danger/5 shadow-sm">
         <div className="flex h-12 items-center gap-4 px-4 lg:px-6">
           {/* Mobile Menu Button */}
           <Button
@@ -251,8 +251,9 @@ export function AdminShell({ children, user }: AdminShellProps) {
 
           {/* Admin Dashboard Title */}
           <div className="flex items-center space-x-2">
-            <span className="font-heading text-lg font-semibold">
-              Admin Dashboard
+            <Badge variant="destructive" className="px-2 py-0.5">Admin</Badge>
+            <span className="font-heading text-lg font-semibold text-foreground">
+              Dashboard
             </span>
           </div>
 
@@ -260,7 +261,7 @@ export function AdminShell({ children, user }: AdminShellProps) {
           <div className="flex-1" />
 
           {/* Back to App Button */}
-          <Button variant="outline" size="sm" asChild>
+          <Button variant="outline" size="sm" className="hover:bg-primary/5 hover:border-primary/50 hover:text-primary transition-all duration-200" asChild>
             <Link href="/app">
               <svg className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -276,7 +277,7 @@ export function AdminShell({ children, user }: AdminShellProps) {
         <aside 
           className={`hidden lg:flex flex-col ${
             sidebarCollapsed ? "w-16" : "w-72"
-          } border-r bg-background transition-all duration-300`}
+          } border-r border-border/40 bg-background transition-all duration-300`}
         >
           <div className="flex-1 overflow-auto">
             <nav className="p-4 space-y-6">
@@ -292,26 +293,26 @@ export function AdminShell({ children, user }: AdminShellProps) {
                       <Link
                         key={item.href}
                         href={item.disabled ? "#" : item.href}
-                        className={`flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+                        className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200 ${
                           isActive(item.href)
-                            ? "bg-destructive/10 text-destructive"
-                            : "hover:bg-accent hover:text-accent-foreground"
+                            ? "bg-danger/10 text-danger shadow-sm border border-danger/20"
+                            : "hover:bg-danger/5 hover:text-danger/80 border border-transparent"
                         } ${item.disabled ? "opacity-50 cursor-not-allowed" : ""}`}
                         title={sidebarCollapsed ? item.label : item.description}
                       >
                         {item.icon}
                         {!sidebarCollapsed && (
-                          <div className="flex-1">
-                            <div>{item.label}</div>
+                          <div className="flex-1 min-w-0">
+                            <div className="font-medium">{item.label}</div>
                             {item.description && (
-                              <div className="text-xs text-muted-foreground">
+                              <div className="text-xs text-muted-foreground truncate">
                                 {item.description}
                               </div>
                             )}
                           </div>
                         )}
                         {!sidebarCollapsed && item.badge && (
-                          <Badge variant="secondary" className="ml-auto">
+                          <Badge variant="secondary" className="ml-auto bg-danger/10 text-danger">
                             {item.badge}
                           </Badge>
                         )}
@@ -325,13 +326,13 @@ export function AdminShell({ children, user }: AdminShellProps) {
 
           {/* Sidebar Footer */}
           {!sidebarCollapsed && (
-            <div className="p-4 border-t">
+            <div className="p-4 border-t border-border/40 bg-success/5">
               <div className="text-xs text-muted-foreground space-y-1">
                 <div className="flex items-center gap-2">
-                  <div className="h-2 w-2 rounded-full bg-green-500" />
-                  <span>System Healthy</span>
+                  <div className="h-2 w-2 rounded-full bg-success shadow-sm animate-pulse" />
+                  <span className="font-medium text-success">System Healthy</span>
                 </div>
-                <div>Admin Panel v1.0.0</div>
+                <div className="font-medium">Admin Panel v1.0.0</div>
                 <div>© 2024 {tokens.brandName}</div>
               </div>
             </div>
@@ -345,10 +346,11 @@ export function AdminShell({ children, user }: AdminShellProps) {
               className="fixed inset-0 bg-background/80 backdrop-blur-sm"
               onClick={() => setMobileMenuOpen(false)}
             />
-            <div className="fixed left-0 top-0 h-full w-80 border-r bg-background">
-              <div className="flex h-12 items-center gap-4 border-b px-4">
+            <div className="fixed left-0 top-0 h-full w-80 border-r border-border/40 bg-background shadow-xl">
+              <div className="flex h-12 items-center gap-4 border-b border-border/40 px-4 bg-gradient-to-r from-danger/5 via-background to-danger/5">
+                <Badge variant="destructive" className="px-2 py-0.5">Admin</Badge>
                 <span className="font-heading text-lg font-semibold">
-                  Admin Dashboard
+                  Dashboard
                 </span>
                 <div className="flex-1" />
                 <Button
@@ -374,24 +376,24 @@ export function AdminShell({ children, user }: AdminShellProps) {
                           <Link
                             key={item.href}
                             href={item.disabled ? "#" : item.href}
-                            className={`flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+                            className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200 ${
                               isActive(item.href)
-                                ? "bg-destructive/10 text-destructive"
-                                : "hover:bg-accent hover:text-accent-foreground"
+                                ? "bg-danger/10 text-danger shadow-sm border border-danger/20"
+                                : "hover:bg-danger/5 hover:text-danger/80 border border-transparent"
                             } ${item.disabled ? "opacity-50 cursor-not-allowed" : ""}`}
                             onClick={() => setMobileMenuOpen(false)}
                           >
                             {item.icon}
-                            <div className="flex-1">
-                              <div>{item.label}</div>
+                            <div className="flex-1 min-w-0">
+                              <div className="font-medium">{item.label}</div>
                               {item.description && (
-                                <div className="text-xs text-muted-foreground">
+                                <div className="text-xs text-muted-foreground truncate">
                                   {item.description}
                                 </div>
                               )}
                             </div>
                             {item.badge && (
-                              <Badge variant="secondary" className="ml-auto">
+                              <Badge variant="secondary" className="ml-auto bg-danger/10 text-danger">
                                 {item.badge}
                               </Badge>
                             )}

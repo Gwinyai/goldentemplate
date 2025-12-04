@@ -53,12 +53,12 @@ export function TestimonialsSection({
   columns = 3,
 }: TestimonialsSectionProps) {
   return (
-    <section className="py-16 sm:py-24">
+    <section className="py-16 sm:py-24 relative">
       <div className="container mx-auto px-6">
         {/* Header */}
         <div className="mx-auto max-w-3xl text-center mb-16">
           <h2 className="text-3xl font-heading font-bold tracking-tight sm:text-4xl">
-            {title}
+            <span className="text-gradient-primary">{title}</span>
           </h2>
           {subtitle && (
             <p className="mt-6 text-lg leading-8 text-muted-foreground">
@@ -70,8 +70,14 @@ export function TestimonialsSection({
         {/* Testimonials Grid */}
         <div className={`grid gap-8 ${columnClasses[columns]}`}>
           {testimonials.map((testimonial, index) => (
-            <Card key={index} className="bg-background">
-              <CardContent className="p-6">
+            <Card 
+              key={index} 
+              className="bg-background border-border/50 hover:shadow-lg hover:border-primary/20 transition-all duration-300 group relative overflow-hidden"
+            >
+              {/* Quote mark decoration */}
+              <div className="absolute top-4 right-4 text-6xl text-primary/10 font-serif leading-none">"</div>
+              
+              <CardContent className="p-6 relative z-10">
                 {/* Rating */}
                 {testimonial.rating && (
                   <div className="mb-4">
@@ -80,7 +86,7 @@ export function TestimonialsSection({
                 )}
 
                 {/* Quote */}
-                <blockquote className="text-lg font-medium leading-7 text-foreground mb-6">
+                <blockquote className="text-lg font-medium leading-7 text-foreground mb-6 relative">
                   "{testimonial.quote}"
                 </blockquote>
 
@@ -89,13 +95,13 @@ export function TestimonialsSection({
                   <div className="flex-shrink-0">
                     {testimonial.author.avatar ? (
                       <img
-                        className="h-12 w-12 rounded-full object-cover"
+                        className="h-12 w-12 rounded-full object-cover ring-2 ring-primary/20 group-hover:ring-primary/40 transition-all"
                         src={testimonial.author.avatar}
                         alt={testimonial.author.name}
                       />
                     ) : (
-                      <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
-                        <span className="text-sm font-semibold text-primary">
+                      <div className="h-12 w-12 rounded-full bg-gradient-primary flex items-center justify-center shadow-primary">
+                        <span className="text-sm font-bold text-white">
                           {testimonial.author.name.charAt(0)}
                         </span>
                       </div>
@@ -103,7 +109,7 @@ export function TestimonialsSection({
                   </div>
                   
                   <div>
-                    <div className="font-semibold text-foreground">
+                    <div className="font-bold text-foreground group-hover:text-primary transition-colors">
                       {testimonial.author.name}
                     </div>
                     <div className="text-sm text-muted-foreground">
@@ -112,24 +118,27 @@ export function TestimonialsSection({
                   </div>
                 </div>
               </CardContent>
+              
+              {/* Subtle gradient overlay */}
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/0 to-secondary/0 group-hover:from-primary/5 group-hover:to-secondary/5 transition-all duration-300 pointer-events-none rounded-lg" />
             </Card>
           ))}
         </div>
 
         {/* Trust Indicators */}
         <div className="mt-16 text-center">
-          <p className="text-sm text-muted-foreground mb-8">
+          <p className="text-sm font-medium text-muted-foreground mb-8">
             Trusted by thousands of customers worldwide
           </p>
           
           {/* Company Logos Placeholder */}
-          <div className="flex items-center justify-center gap-8 grayscale opacity-60">
+          <div className="flex items-center justify-center gap-8 flex-wrap">
             {[1, 2, 3, 4, 5].map((i) => (
               <div
                 key={i}
-                className="h-12 w-24 bg-muted rounded flex items-center justify-center"
+                className="h-14 w-28 bg-gradient-to-br from-muted to-muted/50 rounded-lg flex items-center justify-center border border-border/50 hover:border-primary/30 transition-all duration-300 hover:scale-105 grayscale hover:grayscale-0"
               >
-                <span className="text-xs font-medium text-muted-foreground">
+                <span className="text-xs font-bold text-muted-foreground">
                   Logo {i}
                 </span>
               </div>
@@ -145,62 +154,56 @@ export function TestimonialsSection({
 export function DefaultTestimonialsSection() {
   const defaultTestimonials: Testimonial[] = [
     {
-      quote: "__VG_TESTIMONIAL_1_QUOTE__",
+      quote: "VibeGuide saved us months of development time. The authentication and payment systems work flawlessly out of the box.",
       author: {
-        name: "__VG_TESTIMONIAL_1_AUTHOR__",
-        title: "__VG_TESTIMONIAL_1_TITLE__",
-        company: "__VG_TESTIMONIAL_1_COMPANY__",
-        avatar: "__VG_TESTIMONIAL_1_AVATAR__",
+        name: "Sarah Chen",
+        title: "CTO",
+        company: "TechFlow",
       },
       rating: 5,
     },
     {
-      quote: "__VG_TESTIMONIAL_2_QUOTE__",
+      quote: "Finally, a boilerplate that actually delivers. Clean code, great documentation, and everything I need to launch fast.",
       author: {
-        name: "__VG_TESTIMONIAL_2_AUTHOR__",
-        title: "__VG_TESTIMONIAL_2_TITLE__",
-        company: "__VG_TESTIMONIAL_2_COMPANY__",
-        avatar: "__VG_TESTIMONIAL_2_AVATAR__",
+        name: "Marcus Rodriguez",
+        title: "Founder",
+        company: "StartupLab",
       },
       rating: 5,
     },
     {
-      quote: "__VG_TESTIMONIAL_3_QUOTE__",
+      quote: "The best investment I made for my SaaS. Shipped to production in 2 weeks instead of 2 months.",
       author: {
-        name: "__VG_TESTIMONIAL_3_AUTHOR__",
-        title: "__VG_TESTIMONIAL_3_TITLE__",
-        company: "__VG_TESTIMONIAL_3_COMPANY__",
-        avatar: "__VG_TESTIMONIAL_3_AVATAR__",
+        name: "Emily Watson",
+        title: "Full Stack Developer",
+        company: "IndieDev",
       },
       rating: 5,
     },
     {
-      quote: "__VG_TESTIMONIAL_4_QUOTE__",
+      quote: "VibeGuide's architecture is solid. Scaling from MVP to 10k users was seamless with their foundation.",
       author: {
-        name: "__VG_TESTIMONIAL_4_AUTHOR__",
-        title: "__VG_TESTIMONIAL_4_TITLE__",
-        company: "__VG_TESTIMONIAL_4_COMPANY__",
-        avatar: "__VG_TESTIMONIAL_4_AVATAR__",
+        name: "David Kim",
+        title: "Lead Engineer",
+        company: "GrowthCorp",
       },
       rating: 5,
     },
     {
-      quote: "__VG_TESTIMONIAL_5_QUOTE__",
+      quote: "Love how everything is configurable through design tokens. Consistent branding across the entire app.",
       author: {
-        name: "__VG_TESTIMONIAL_5_AUTHOR__",
-        title: "__VG_TESTIMONIAL_5_TITLE__",
-        company: "__VG_TESTIMONIAL_5_COMPANY__",
-        avatar: "__VG_TESTIMONIAL_5_AVATAR__",
+        name: "Jessica Taylor",
+        title: "Product Designer",
+        company: "DesignStudio",
       },
       rating: 5,
     },
     {
-      quote: "__VG_TESTIMONIAL_6_QUOTE__",
+      quote: "The deployment workflow is chef's kiss. One command and everything is live with monitoring included.",
       author: {
-        name: "__VG_TESTIMONIAL_6_AUTHOR__",
-        title: "__VG_TESTIMONIAL_6_TITLE__",
-        company: "__VG_TESTIMONIAL_6_COMPANY__",
-        avatar: "__VG_TESTIMONIAL_6_AVATAR__",
+        name: "Alex Thompson",
+        title: "DevOps Engineer",
+        company: "CloudNative",
       },
       rating: 5,
     },
@@ -208,8 +211,8 @@ export function DefaultTestimonialsSection() {
 
   return (
     <TestimonialsSection
-      title="__VG_TESTIMONIALS_SECTION_TITLE__"
-      subtitle="__VG_TESTIMONIALS_SECTION_SUBTITLE__"
+      title="Loved by thousands of developers"
+      subtitle="See what builders are saying about VibeGuide and how it's transformed their development workflow."
       testimonials={defaultTestimonials}
       layout="grid"
       columns={3}

@@ -57,12 +57,12 @@ export function BlogSection({
   const displayPosts = maxPosts ? posts.slice(0, maxPosts) : posts;
 
   return (
-    <section className="py-16 sm:py-24">
+    <section className="py-16 sm:py-24 relative">
       <div className="container mx-auto px-6">
         {/* Header */}
         <div className="mx-auto max-w-3xl text-center mb-16">
           <h2 className="text-3xl font-heading font-bold tracking-tight sm:text-4xl">
-            {title}
+            <span className="text-gradient-primary">{title}</span>
           </h2>
           {subtitle && (
             <p className="mt-6 text-lg leading-8 text-muted-foreground">
@@ -118,31 +118,32 @@ function BlogCard({
   showReadingTime: boolean;
 }) {
   return (
-    <Card className="h-full hover:shadow-md transition-shadow">
+    <Card className="h-full hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group border-border/50 overflow-hidden">
       {post.image && (
-        <div className="aspect-[16/9] overflow-hidden rounded-t-lg">
+        <div className="aspect-[16/9] overflow-hidden relative">
           <img
             src={post.image.src}
             alt={post.image.alt}
-            className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
           />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         </div>
       )}
 
       <CardHeader>
-        <div className="flex items-center gap-2 mb-2">
+        <div className="flex items-center gap-2 mb-2 flex-wrap">
           {showCategories && (
             <Badge variant="secondary" className="text-xs">
               {post.category}
             </Badge>
           )}
           {post.featured && (
-            <Badge className="text-xs">Featured</Badge>
+            <Badge className="text-xs bg-gradient-primary shadow-primary">Featured</Badge>
           )}
         </div>
         
         <CardTitle className="line-clamp-2">
-          <Link href={`/blog/${post.slug}`} className="hover:text-primary transition-colors">
+          <Link href={`/blog/${post.slug}`} className="hover:text-primary transition-colors group-hover:text-primary">
             {post.title}
           </Link>
         </CardTitle>
@@ -279,59 +280,44 @@ export function DefaultBlogSection() {
   const defaultPosts: BlogPost[] = [
     {
       slug: "getting-started-guide",
-      title: "__VG_BLOG_POST_1_TITLE__",
-      excerpt: "__VG_BLOG_POST_1_EXCERPT__",
+      title: "Building Your First SaaS in Days, Not Months",
+      excerpt: "Learn how to launch your production-ready SaaS application using VibeGuide's comprehensive boilerplate. Complete setup in under 30 minutes.",
       author: {
-        name: "__VG_BLOG_POST_1_AUTHOR__",
-        avatar: "__VG_BLOG_POST_1_AUTHOR_AVATAR__",
+        name: "Alex Chen",
       },
       publishedAt: "2024-01-15",
       readingTime: 5,
       category: "Getting Started",
       featured: true,
-      image: {
-        src: "__VG_BLOG_POST_1_IMAGE__",
-        alt: "__VG_BLOG_POST_1_IMAGE_ALT__",
-      },
     },
     {
       slug: "best-practices",
-      title: "__VG_BLOG_POST_2_TITLE__",
-      excerpt: "__VG_BLOG_POST_2_EXCERPT__",
+      title: "Design Token Architecture: Building Scalable UI Systems",
+      excerpt: "Discover how VibeGuide's design token system enables consistent branding and rapid customization across your entire application.",
       author: {
-        name: "__VG_BLOG_POST_2_AUTHOR__",
-        avatar: "__VG_BLOG_POST_2_AUTHOR_AVATAR__",
+        name: "Sarah Rodriguez",
       },
       publishedAt: "2024-01-10",
       readingTime: 8,
       category: "Best Practices",
-      image: {
-        src: "__VG_BLOG_POST_2_IMAGE__",
-        alt: "__VG_BLOG_POST_2_IMAGE_ALT__",
-      },
     },
     {
       slug: "feature-announcement",
-      title: "__VG_BLOG_POST_3_TITLE__",
-      excerpt: "__VG_BLOG_POST_3_EXCERPT__",
+      title: "New: Advanced Analytics Dashboard & Monitoring",
+      excerpt: "We've added comprehensive analytics and monitoring capabilities to help you track your SaaS metrics from day one.",
       author: {
-        name: "__VG_BLOG_POST_3_AUTHOR__",
-        avatar: "__VG_BLOG_POST_3_AUTHOR_AVATAR__",
+        name: "Marcus Kim",
       },
       publishedAt: "2024-01-05",
       readingTime: 3,
       category: "Product Updates",
-      image: {
-        src: "__VG_BLOG_POST_3_IMAGE__",
-        alt: "__VG_BLOG_POST_3_IMAGE_ALT__",
-      },
     },
   ];
 
   return (
     <BlogSection
-      title="__VG_BLOG_SECTION_TITLE__"
-      subtitle="__VG_BLOG_SECTION_SUBTITLE__"
+      title="Latest from Our Blog"
+      subtitle="Stay updated with the latest tips, tutorials, and product updates to maximize your development velocity."
       posts={defaultPosts}
       layout="grid"
       showExcerpts={true}

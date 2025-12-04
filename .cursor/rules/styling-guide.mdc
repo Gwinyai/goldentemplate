@@ -1,0 +1,290 @@
+---
+description: Design, UI and Layout
+alwaysApply: false
+---
+# Modern SaaS Design System - Cursor Rule
+
+## Design Philosophy: Modern SaaS Aesthetic
+
+This is a **Modern SaaS** design system. All decisions should reinforce this aesthetic.
+
+- Prefer **clean, spacious layouts** with clear hierarchy.
+- Use **bold typography** for key headings (hero, section titles, pricing tiers).
+- Use **vibrant accents and gradients** (configured via tokens) sparingly for:
+  - hero backgrounds,
+  - primary CTAs,
+  - key highlight sections.
+- Keep cards and panels **soft and approachable**:
+  - `bg-surface`, `rounded-lg`/`rounded-xl`, `shadow-sm` or `shadow-md`.
+- Allow for **subtle motion** (hover states, micro interactions), but keep animations:
+  - short,
+  - smooth,
+  - non-distracting.
+  
+Important:
+
+- Do **not** hardcode purple/blue/pink hex values. Express this “modern SaaS” feel using the project’s tokens (e.g. `bg-primary`, `bg-accent`, gradients derived from token colors).
+- Do **not** put gradients and loud shadows on every element. Reserve them for hero sections, primary CTAs, and a few highlight areas.
+- For dashboards and admin surfaces, favor clarity and readability over visual drama.
+
+## Core Principles
+
+1. **Single source of truth**  
+   All visual primitives (colors, typography, radii, shadows, spacing scales, component sizes) come from `src/design-tokens.ts`.
+
+2. **Tailwind as the interface**  
+   Components **do not** access the token object directly. They use Tailwind utilities (`bg-primary`, `text-neutral`, `shadow-md`, `rounded-lg`, etc.) that are wired to tokens via `tailwind.config.ts`.
+
+3. **Token-first, not one-off values**  
+   If a visual pattern isn’t represented in tokens yet, **add or extend a token**, wire it in Tailwind, then use it. Do not hard-code new visual values in components.
+
+4. **Layout primitives are allowed**  
+   Structural utilities like `flex`, `grid`, `w-full`, `h-full`, `justify-between`, `items-center` are fine. These rules mainly govern **visual primitives** (colors, typography, radii, shadows, spacing, component sizing).
+
+---
+
+## Where Tokens Are Used vs Not
+
+### Allowed direct token use
+
+Direct access to the token object (e.g. `designTokens.colors.primary`) is allowed **only in**:
+
+- `src/design-tokens.ts` – defining the token map.
+- `tailwind.config.ts` – mapping tokens → Tailwind theme values.
+- Rare theme utilities that explicitly translate tokens to CSS variables.
+
+### Not allowed in components
+
+React components, server actions, and pages **must not** import and read `designTokens` directly. They should rely on:
+
+- Tailwind classes like `bg-primary`, `text-accent`, `rounded-lg`, `shadow-md`, `max-w-page`.
+- Any project‑specific utilities that are already wired to tokens.
+
+If you find yourself wanting to write `style={{ color: "#6366f1" }}`, you should instead be using `className="text-primary"` or adding a proper token + Tailwind mapping.
+
+---
+
+## Token‑Compliant Styling in Components
+
+When writing JSX/TSX, follow these rules:
+
+### Colors
+
+- ✅ Use token‑backed Tailwind classes:  
+  - `bg-primary`, `bg-secondary`, `bg-accent`, `bg-surface`, `bg-background`  
+  - `text-primary`, `text-neutral`, `text-accent`  
+  - `border-neutral`, `border-primary`
+- ❌ Do **not** use raw hex values: `bg-[#6366f1]`, `text-[#111827]`
+- ❌ Do **not** introduce non‑token Tailwind colors: `bg-purple-600`, `text-slate-900`
+
+### Typography
+
+- ✅ Use token‑backed font families and sizes:
+  - `font-primary`, `font-secondary` (or whatever aliases the project defines)
+  - `text-sm`, `text-base`, `text-lg`, `text-xl`, etc. as mapped from tokens
+- ✅ Use semantic text utilities for specific contexts (e.g. hero, section titles) if they exist.
+- ❌ Do **not** hard‑code font stacks: `font-['Inter',_system-ui]`
+- ❌ Do **not** use arbitrary `text-[17px]`
+
+### Radius
+
+- ✅ Use token‑aligned radius utilities:
+  - `rounded-sm`, `rounded-md`, `rounded-lg`, `rounded-xl`, `rounded-full`
+- ❌ Do **not** use arbitrary radii: `rounded-[7px]`
+
+### Shadows
+
+- ✅ Use token‑backed shadows: `shadow-sm`, `shadow-md`, `shadow-lg`
+- ❌ Do **not** use custom shadow strings: `shadow-[0_4px_6px_rgba(0,0,0,0.1)]`
+
+### Spacing & Layout
+
+- ✅ Use spacing utilities that align with token scales:
+  - `p-4`, `p-6`, `px-4`, `py-6`, `gap-4`, `gap-6`, etc. **as defined by the Tailwind config and design tokens**
+  - Any project‑specific utilities like `p-section`, `py-section`, `max-w-page`
+- ❌ Avoid oddball arbitrary spacing like `gap-[37px]`, `px-[23px]` unless there is **no** reasonable token equivalent and there is a very specific reason.
+
+---
+
+## Component Patterns (Token‑Backed)
+
+These are guidelines to keep similar components visually consistent. They are **recommendations** unless otherwise marked.
+
+### Buttons
+ 
+- **Default size**: prefer the project’s default button size (for example `btn-md` or `px-button-md py-button-md`).
+- **Variants**: use existing button variants backed by tokens (`btn-primary`, `btn-ghost`, `btn-outline`, etc. as defined).
+- For primary CTAs, prefer the primary button variant; for subtle actions, use secondary/ghost variants.
+- ❌ Do not hand‑tune each button with unique `px-* py-*` unless necessary.
+
+### Inputs
+
+- Use existing input classes (`input`, `input-sm`, `input-md`, etc., depending on the project) rather than bespoke padding/ borders.
+- Input focus/hover states should rely on the project’s token‑backed classes, not manual `border-[#hex]`.
+
+### Cards / Panels
+
+- Prefer a consistent card pattern:
+  - Background: `bg-surface` (or equivalent)
+  - Radius: `rounded-lg` or `rounded-xl`
+  - Shadow: `shadow-sm` or `shadow-md`
+  - Padding: `p-4`, `p-6` or a project‑specific `p-card` utility
+- Headers, body text, and actions inside cards should use consistent spacing patterns (`space-y-2`, `space-y-4`).
+
+### Avatars / Icons
+
+- For avatar or icon sizing, use consistent size utilities if available (`avatar-sm`, `avatar-md`, etc. or fixed `h-* w-*` sizes chosen from the token scale).
+- Avoid mixing arbitrary sizes like `h-[37px] w-[37px]` next to `h-8 w-8` unless there is a clear reason.
+
+---
+
+## Layout Primitives vs Visual Primitives
+
+These rules **do not** restrict layout primitives like:
+
+- `flex`, `grid`, `block`, `inline-flex`
+- `justify-between`, `items-center`, `self-end`
+- `w-full`, `h-full`, `min-h-screen`
+- `overflow-hidden`, `overflow-auto`
+
+Use these freely for structure.
+
+The constraints apply to **visual primitives** and **aesthetic decisions**:
+
+- Colors, typography, shadows, radii
+- Component sizing and spacing
+- Section spacing and page rhythm
+
+If in doubt: layout = fine, look = token‑driven.
+
+---
+
+## Common Patterns (Recommendations, Not Requirements)
+
+These patterns help keep the UI feeling coherent but are not hard rules.
+
+### Sections
+
+- For typical page sections (e.g. features, testimonials, FAQ):
+  - Use a consistent vertical rhythm, e.g. `py-12` or `py-16` or a project‑specific `py-section` utility.
+- For hero sections:
+  - Use slightly more generous spacing (`py-16`, `py-20` or `py-section-hero` if defined).
+
+### Grids
+
+- Feature grids: 1–2 columns on mobile → 2–3 columns on desktop (e.g. `grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6`).
+- Pricing grids: 1 column on mobile → 3 columns on desktop, with consistent `gap-*` values.
+
+### Buttons & Links
+
+- Primary CTA: use the primary button variant (e.g. `btn-primary bg-primary text-white`).
+- Secondary actions: use neutral/outline/ghost variants to maintain contrast hierarchy.
+- Avoid using primary color on every click-able element—reserve it for primary actions.
+
+These patterns are **suggested defaults**; adapt them when a specific context demands it, but stay token‑compliant.
+
+---
+
+## Anti‑Patterns (Never Do)
+
+These are **hard bans** unless the file you are editing is explicitly about tokens or Tailwind configuration.
+
+- ❌ Arbitrary values that bypass tokens:
+  - `px-[23px]`, `text-[19px]`, `gap-[37px]`, `rounded-[11px]`
+- ❌ Hard‑coded colors:
+  - `bg-[#6366f1]`, `text-[#111827]`, `border-[#e5e7eb]`
+- ❌ Non‑token Tailwind color classes that conflict with the design system:
+  - `bg-blue-500`, `text-slate-900`, `bg-emerald-400`, etc.
+- ❌ Custom shadow strings:
+  - `shadow-[0_4px_6px_rgba(0,0,0,0.1)]`
+- ❌ Custom font stacks in components:
+  - `className="font-['Inter',_system-ui]"`
+
+If you need a new look, **add or extend tokens**, wire them through Tailwind, then use the resulting utilities.
+
+---
+
+## Adding New Patterns
+
+If a visual pattern you need is not covered by existing utilities:
+
+1. **Add a token**  
+   Extend `src/design-tokens.ts` with a new semantic token. Example:
+   - New card radius size → add `radius.cardLg`
+   - Extra‑large button size → add `components.button.sizes.xl`
+   - New semantic color (e.g. `info`) → add `colors.info`
+
+2. **Wire it into Tailwind**  
+   In `tailwind.config.ts`, map the new token(s) into the `theme.extend` section so they become Tailwind utilities.
+
+3. **Use the new utility**  
+   Use the corresponding Tailwind class(es) in components, **not** the raw token value.
+
+4. **Optional: document it**  
+   If the token defines a reusable pattern (e.g. a new section spacing or grid), add a brief note in design docs so future components use it consistently.
+
+Never introduce a new visual pattern solely at the component level.
+
+---
+
+## Examples (Good vs Bad)
+
+### Example: Primary Button
+
+✅ **Good – token‑compliant, tailwind‑driven**
+
+```tsx
+<button
+  className="inline-flex items-center justify-center rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white shadow-md hover:bg-primary/90"
+>
+  Get started
+</button>
+```
+
+❌ **Bad – hard‑coded values**
+
+```tsx
+<button
+  className="inline-flex items-center justify-center rounded-[7px] bg-[#6366f1] px-[15px] py-[9px] text-[15px] font-semibold text-white shadow-[0_4px_6px_rgba(0,0,0,0.1)]"
+>
+  Get started
+</button>
+```
+
+### Example: Card
+
+✅ **Good – consistent card pattern**
+
+```tsx
+<div className="rounded-lg bg-surface p-6 shadow-sm">
+  <h3 className="text-lg font-semibold text-primary">Pro plan</h3>
+  <p className="mt-2 text-sm text-neutral">
+    Perfect for growing teams that need more control.
+  </p>
+</div>
+```
+
+❌ **Bad – random visual choices**
+
+```tsx
+<div className="rounded-[9px] bg-white p-[26px] shadow-[0_10px_15px_rgba(0,0,0,0.1)]">
+  <h3 className="text-[18px] font-bold text-[#1f2933]">Pro plan</h3>
+  <p className="mt-[9px] text-[13px] text-[#4a5568]">
+    Perfect for growing teams that need more control.
+  </p>
+</div>
+```
+
+---
+
+## Review Checklist
+
+When changing or creating UI:
+
+- [ ] Are all colors token‑backed (no `bg-[#hex]`, `bg-blue-500`, etc.)?
+- [ ] Are fonts referenced only via project classes (`font-*`, `text-*`) rather than raw font stacks?
+- [ ] Are radii and shadows using standard utilities (`rounded-lg`, `shadow-md`) instead of arbitrary values?
+- [ ] Is spacing chosen from the existing scale (or documented utilities) rather than weird one‑off pixel values?
+- [ ] If a new pattern was needed, was it added to `design-tokens.ts` and wired through Tailwind?
+
+If all answers are “yes”, the styling is consistent with the design system and safe for future token changes.

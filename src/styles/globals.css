@@ -1,69 +1,221 @@
 @import "tailwindcss";
 @import "./theme.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-  --muted: #f1f5f9;
-  --muted-foreground: #64748b;
-  --border: #e2e8f0;
-  --input: #ffffff;
-  --card: #ffffff;
-  --card-foreground: #0f172a;
-  --popover: #ffffff;
-  --popover-foreground: #0f172a;
-  --primary: #0f172a;
-  --primary-foreground: #f8fafc;
-  --secondary: #f1f5f9;
-  --secondary-foreground: #0f172a;
-  --accent: #f1f5f9;
-  --accent-foreground: #0f172a;
-  --destructive: #ef4444;
-  --destructive-foreground: #f8fafc;
-  --ring: #94a3b8;
-  --radius: 0.5rem;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-    --muted: #1e293b;
-    --muted-foreground: #94a3b8;
-    --border: #334155;
-    --input: #1e293b;
-    --card: #0f172a;
-    --card-foreground: #f8fafc;
-    --popover: #0f172a;
-    --popover-foreground: #f8fafc;
-    --primary: #f8fafc;
-    --primary-foreground: #0f172a;
-    --secondary: #1e293b;
-    --secondary-foreground: #f8fafc;
-    --accent: #1e293b;
-    --accent-foreground: #f8fafc;
-    --destructive: #7f1d1d;
-    --destructive-foreground: #f8fafc;
-    --ring: #334155;
-  }
-}
-
-* {
-  border-color: hsl(var(--border));
-}
-
-body {
-  background-color: hsl(var(--background));
-  color: hsl(var(--foreground));
-  font-feature-settings: "rlig" 1, "calt" 1;
-}
-
 @layer base {
+  /* Set base styles using CSS custom properties */
   * {
-    border-color: hsl(var(--border));
+    border-color: var(--token-border-default);
   }
+  
   body {
-    background-color: hsl(var(--background));
-    color: hsl(var(--foreground));
+    background-color: var(--token-background);
+    color: var(--token-text-primary);
+    font-feature-settings: "rlig" 1, "calt" 1;
+    font-family: var(--token-font-primary);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  /* Enhanced typography hierarchy using CSS custom properties */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--token-font-secondary);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    color: var(--token-text-primary);
+  }
+  
+  h1 {
+    font-size: 3rem;
+    line-height: 1.25;
+  }
+  
+  h2 {
+    font-size: 2.25rem;
+    line-height: 1.25;
+  }
+  
+  h3 {
+    font-size: 1.875rem;
+    line-height: 1.25;
+  }
+  
+  h4 {
+    font-size: 1.5rem;
+    line-height: 1.5;
+  }
+  
+  h5 {
+    font-size: 1.25rem;
+    line-height: 1.5;
+  }
+  
+  h6 {
+    font-size: 1.125rem;
+    line-height: 1.5;
+  }
+  
+  /* Enhanced link styles */
+  a {
+    color: var(--token-primary);
+    transition: color 0.2s;
+  }
+  
+  a:hover {
+    opacity: 0.8;
+  }
+  
+  /* Focus styles */
+  *:focus-visible {
+    outline: 2px solid var(--token-primary);
+    outline-offset: 2px;
+    border-radius: 0.5rem;
+  }
+  
+  /* Selection styles */
+  ::selection {
+    background-color: color-mix(in srgb, var(--token-primary) 20%, transparent);
+    color: var(--token-text-primary);
+  }
+}
+
+@layer utilities {
+  /* Modern SaaS utility classes using CSS custom properties */
+  
+  /* Section spacing utilities */
+  .py-section {
+    padding-top: var(--token-spacing-section);
+    padding-bottom: var(--token-spacing-section);
+  }
+  
+  .py-section-mobile {
+    padding-top: var(--token-spacing-section-mobile);
+    padding-bottom: var(--token-spacing-section-mobile);
+  }
+  
+  .px-container {
+    padding-left: var(--token-spacing-container);
+    padding-right: var(--token-spacing-container);
+  }
+  
+  .px-container-mobile {
+    padding-left: var(--token-spacing-container-mobile);
+    padding-right: var(--token-spacing-container-mobile);
+  }
+  
+  /* Text gradient utilities */
+  .text-gradient-primary {
+    background: linear-gradient(135deg, var(--token-primary) 0%, var(--token-secondary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .text-gradient-secondary {
+    background: linear-gradient(to right, var(--token-secondary) 0%, var(--token-accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .text-gradient-accent {
+    background: linear-gradient(to right, var(--token-accent) 0%, var(--token-primary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  /* Glass morphism effect */
+  .glass {
+    background: color-mix(in srgb, var(--token-surface) 80%, transparent);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid color-mix(in srgb, var(--token-border-light) 50%, transparent);
+  }
+  
+  .glass-dark {
+    background: color-mix(in srgb, var(--token-text-primary) 40%, transparent);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid color-mix(in srgb, var(--token-border-default) 30%, transparent);
+  }
+  
+  /* Shimmer effect */
+  .shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .shimmer::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in srgb, var(--token-surface) 20%, transparent),
+      transparent
+    );
+    animation: shimmer 2s infinite;
+  }
+  
+  @keyframes shimmer {
+    100% {
+      left: 100%;
+    }
+  }
+  
+  /* Enhanced button utilities following component tokens */
+  .btn-primary {
+    background-color: var(--token-primary);
+    color: var(--token-text-inverse);
+    border-radius: var(--token-radius-lg);
+    box-shadow: var(--token-shadow-md);
+    font-weight: 600;
+    transition: all 0.2s;
+  }
+  
+  .btn-primary:hover {
+    background-color: color-mix(in srgb, var(--token-primary) 90%, black);
+    transform: translateY(-1px);
+    box-shadow: var(--token-shadow-lg);
+  }
+  
+  .btn-secondary {
+    background-color: var(--token-surface);
+    color: var(--token-text-primary);
+    border: 1px solid var(--token-border-default);
+    border-radius: var(--token-radius-lg);
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+  
+  .btn-secondary:hover {
+    background-color: color-mix(in srgb, var(--token-neutral) 10%, var(--token-surface));
+    border-color: var(--token-border-light);
+  }
+  
+  /* Card utilities */
+  .card-base {
+    background-color: var(--token-surface);
+    border-radius: var(--token-radius-lg);
+    box-shadow: var(--token-shadow-sm);
+    border: 1px solid var(--token-border-light);
+  }
+  
+  .card-hover {
+    transition: all 0.2s;
+  }
+  
+  .card-hover:hover {
+    box-shadow: var(--token-shadow-md);
+    transform: translateY(-2px);
   }
 }

@@ -107,7 +107,7 @@ export function SiteFooter() {
               </span>
             </div>
             <p className="text-sm text-muted-foreground mb-6 max-w-xs">
-              __VG_BRAND_DESCRIPTION__
+              The modern SaaS boilerplate that gets you from idea to production in days, not months. Built with Next.js, TypeScript, and everything you need.
             </p>
             {/* Social Links */}
             <div className="flex space-x-4">

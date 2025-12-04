@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { tokens } from "@/design-tokens";
+import { DesignSystemProvider } from "@/components/providers/design-system-provider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -22,7 +23,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} font-sans antialiased`}>
-        {children}
+        <DesignSystemProvider>
+          {children}
+        </DesignSystemProvider>
       </body>
     </html>
   );

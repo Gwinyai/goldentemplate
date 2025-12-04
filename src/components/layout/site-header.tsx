@@ -41,6 +41,7 @@ export function SiteHeader({ user }: SiteHeaderProps) {
   const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
   const [isLoggingOut, setIsLoggingOut] = React.useState(false);
+  const [logoVisible, setLogoVisible] = React.useState(true);
 
   // Get conditional navigation based on feature flags
   const {
@@ -113,30 +114,37 @@ export function SiteHeader({ user }: SiteHeaderProps) {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 items-center">
+    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60 shadow-sm">
+      <div className="container flex h-16 items-center px-6">
         {/* Logo/Brand */}
         <div className="flex items-center space-x-2">
-          <Link href={user ? "/app" : "/"} className="flex items-center space-x-2">
-            <div className="h-8 w-8 rounded bg-primary" />
-            <span className="font-heading text-xl font-bold">
+          <Link href={user ? "/app" : "/"} className="flex items-center space-x-2 group">
+            {logoVisible && (
+              <img
+                src="/logo.png"
+                alt={tokens.brandName}
+                className="h-12 w-12 rounded-lg object-contain bg-surface shadow-md group-hover:shadow-lg transition-all duration-200"
+                onError={() => setLogoVisible(false)}
+              />
+            )}
+            <span className="font-heading text-xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
               {tokens.brandName}
             </span>
           </Link>
         </div>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex flex-1 items-center justify-center space-x-6">
+        <nav className="hidden md:flex flex-1 items-center justify-center space-x-1">
           {user ? (
             // Protected layout navigation - no marketing links
             protectedNavigationItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`text-sm font-medium transition-colors hover:text-primary ${
+                className={`px-3 py-2 text-sm font-medium rounded-md transition-all duration-200 ${
                   isActive(item.href)
-                    ? "text-foreground"
-                    : "text-foreground/60"
+                    ? "text-primary bg-primary/10"
+                    : "text-foreground/70 hover:text-primary hover:bg-primary/5"
                 }`}
               >
                 {item.label}
@@ -148,10 +156,10 @@ export function SiteHeader({ user }: SiteHeaderProps) {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`text-sm font-medium transition-colors hover:text-primary ${
+                className={`px-3 py-2 text-sm font-medium rounded-md transition-all duration-200 ${
                   isActive(item.href)
-                    ? "text-foreground"
-                    : "text-foreground/60"
+                    ? "text-primary bg-primary/10"
+                    : "text-foreground/70 hover:text-primary hover:bg-primary/5"
                 }`}
               >
                 {item.label}
@@ -186,16 +194,16 @@ export function SiteHeader({ user }: SiteHeaderProps) {
               {/* User Menu */}
               <Dropdown>
                 <DropdownTrigger asChild>
-                  <Button variant="ghost" size="sm" className="relative">
-                    <div className="h-6 w-6 rounded-full bg-primary/20 flex items-center justify-center">
+                  <Button variant="ghost" size="sm" className="relative hover:bg-primary/5">
+                    <div className="h-8 w-8 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center shadow-md">
                       {user.avatar ? (
                         <img
                           src={user.avatar}
                           alt={user.name || user.email}
-                          className="h-6 w-6 rounded-full"
+                          className="h-8 w-8 rounded-full object-cover"
                         />
                       ) : (
-                        <span className="text-xs font-medium">
+                        <span className="text-xs font-semibold text-white">
                           {(user.name || user.email)?.charAt(0).toUpperCase()}
                         </span>
                       )}
@@ -229,10 +237,10 @@ export function SiteHeader({ user }: SiteHeaderProps) {
           ) : (
             isUserAccountsEnabled() && (
               <div className="flex items-center space-x-2">
-                <Button variant="ghost" size="sm" asChild>
+                <Button variant="ghost" size="sm" className="hover:bg-primary/5" asChild>
                   <Link href="/login">Sign In</Link>
                 </Button>
-                <Button size="sm" asChild>
+                <Button size="sm" className="bg-gradient-to-r from-primary to-secondary hover:shadow-lg transition-all duration-200" asChild>
                   <Link href="/register">Sign Up</Link>
                 </Button>
               </div>
