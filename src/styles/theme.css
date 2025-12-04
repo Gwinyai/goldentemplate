@@ -1,12 +1,10 @@
 /* Modern SaaS Design System - Token-based Theme Variables */
-
-/* Light theme (default) - uses design tokens directly */
 :root {
   /* Brand colors from design tokens */
-  --token-primary: #6366f1;
-  --token-secondary: #8b5cf6;
+  --token-primary: #7c3aed;
+  --token-secondary: #a855f7;
   --token-accent: #06b6d4;
-  --token-neutral: #64748b;
+  --token-neutral: #94a3b8;
   
   /* Status colors */
   --token-success: #10b981;
@@ -14,18 +12,18 @@
   --token-danger: #ef4444;
   
   /* Surface colors */
-  --token-background: #fafafa;
-  --token-surface: #ffffff;
+  --token-background: #0b1220;
+  --token-surface: #111827;
   
   /* Text colors */
-  --token-text-primary: #0f172a;
-  --token-text-secondary: #475569;
+  --token-text-primary: #e2e8f0;
+  --token-text-secondary: #cbd5e1;
   --token-text-muted: #94a3b8;
-  --token-text-inverse: #ffffff;
+  --token-text-inverse: #0b1220;
   
   /* Border colors */
-  --token-border-default: #e2e8f0;
-  --token-border-light: #f1f5f9;
+  --token-border-default: #1f2937;
+  --token-border-light: #243045;
   
   /* Typography scale */
   --token-font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -40,10 +38,10 @@
   --token-radius-pill: 9999px;
   
   /* Shadow scale with brand tint */
-  --token-shadow-sm: 0 1px 3px 0 rgba(99, 102, 241, 0.1), 0 1px 2px -1px rgba(99, 102, 241, 0.1);
-  --token-shadow-md: 0 4px 6px -1px rgba(99, 102, 241, 0.15), 0 2px 4px -2px rgba(99, 102, 241, 0.1);
-  --token-shadow-lg: 0 10px 15px -3px rgba(99, 102, 241, 0.2), 0 4px 6px -4px rgba(99, 102, 241, 0.15);
-  --token-shadow-xl: 0 20px 25px -5px rgba(99, 102, 241, 0.25), 0 8px 10px -6px rgba(99, 102, 241, 0.2);
+  --token-shadow-sm: 0 2px 8px rgba(124, 58, 237, 0.1);
+  --token-shadow-md: 0 4px 16px rgba(124, 58, 237, 0.12);
+  --token-shadow-lg: 0 8px 32px rgba(124, 58, 237, 0.15);
+  --token-shadow-xl: 0 16px 48px rgba(124, 58, 237, 0.2);
   
   /* Spacing scale */
   --token-spacing-section: 6rem;
@@ -53,43 +51,6 @@
   --token-spacing-page-max-width: 1280px;
 }
 
-/* Dark theme - adjusted for better contrast and modern SaaS feel */
-.dark {
-  /* Darker, more sophisticated palette */
-  --token-background: #0c0f16;
-  --token-surface: #1a1f2e;
-  --token-text-primary: #ffffff;
-  --token-text-secondary: #cbd5e1;
-  --token-text-muted: #64748b;
-  --token-text-inverse: #0f172a;
-  --token-border-default: #2a3441;
-  --token-border-light: #1e2532;
-  
-  /* Slightly adjusted shadows for dark mode */
-  --token-shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px -1px rgba(0, 0, 0, 0.2);
-  --token-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
-  --token-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -4px rgba(0, 0, 0, 0.4);
-  --token-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.6), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
-}
-
-/* System preference detection */
-@media (prefers-color-scheme: dark) {
-  :root:not(.light) {
-    --token-background: #0c0f16;
-    --token-surface: #1a1f2e;
-    --token-text-primary: #ffffff;
-    --token-text-secondary: #cbd5e1;
-    --token-text-muted: #64748b;
-    --token-text-inverse: #0f172a;
-    --token-border-default: #2a3441;
-    --token-border-light: #1e2532;
-    
-    --token-shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px -1px rgba(0, 0, 0, 0.2);
-    --token-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
-    --token-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -4px rgba(0, 0, 0, 0.4);
-    --token-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.6), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
-  }
-}
 
 /* Utility classes for backward compatibility and convenience */
 .token-primary { color: var(--token-primary); }
@@ -103,6 +64,11 @@
 .token-text-secondary { color: var(--token-text-secondary); }
 .token-text-muted { color: var(--token-text-muted); }
 .token-border { border-color: var(--token-border-default); }
+
+/* Explicit override to force muted text to use tokens even if a parent sets link color */
+.text-muted-foreground {
+  color: var(--token-text-muted) !important;
+}
 
 /* Modern SaaS component patterns */
 .saas-card {

@@ -78,13 +78,13 @@ const getActivityIcon = (type: ActivityItem["type"], status?: string) => {
 const getStatusColor = (status?: string) => {
   switch (status) {
     case "success":
-      return "text-green-600 bg-green-100 dark:bg-green-900/20";
+      return "text-green-600 bg-green-100";
     case "warning":
-      return "text-yellow-600 bg-yellow-100 dark:bg-yellow-900/20";
+      return "text-yellow-600 bg-yellow-100";
     case "error":
-      return "text-red-600 bg-red-100 dark:bg-red-900/20";
+      return "text-red-600 bg-red-100";
     case "info":
-      return "text-blue-600 bg-blue-100 dark:bg-blue-900/20";
+      return "text-blue-600 bg-blue-100";
     default:
       return "text-muted-foreground bg-muted";
   }

@@ -24,6 +24,12 @@ const config: Config = {
           muted: "var(--token-text-muted)",
           inverse: "var(--token-text-inverse)",
         },
+        "muted-foreground": "var(--token-text-muted)",
+        foreground: "var(--token-text-primary)",
+        muted: {
+          DEFAULT: "var(--token-neutral)",
+          foreground: "var(--token-text-muted)"
+        },
         border: {
           DEFAULT: "var(--token-border-default)",
           light: "var(--token-border-light)",
@@ -93,7 +99,7 @@ const config: Config = {
         "gradient-primary": "linear-gradient(135deg, #7c3aed 0%, #a855f7 50%, #ec4899 100%)",
         "gradient-secondary": "linear-gradient(to right, #06b6d4 0%, #3b82f6 100%)",
         "gradient-accent": "linear-gradient(to right, #ec4899 0%, #f472b6 100%)",
-        "gradient-background": "linear-gradient(to bottom right, #faf5ff 0%, #ffffff 50%, #f0f9ff 100%)",
+        "gradient-background": "linear-gradient(to bottom right, #0b1220 0%, #0f172a 50%, #111827 100%)",
       },
       animation: {
         "fade-in": "fadeIn 0.5s ease-in-out",

@@ -68,6 +68,14 @@
   a:hover {
     opacity: 0.8;
   }
+
+  /* Nav links: token-driven muted/hover primary overrides base link color */
+  .nav-link {
+    color: var(--token-text-muted) !important;
+  }
+  .nav-link:hover {
+    color: var(--token-text-primary) !important;
+  }
   
   /* Focus styles */
   *:focus-visible {
@@ -137,12 +145,6 @@
     border: 1px solid color-mix(in srgb, var(--token-border-light) 50%, transparent);
   }
   
-  .glass-dark {
-    background: color-mix(in srgb, var(--token-text-primary) 40%, transparent);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid color-mix(in srgb, var(--token-border-default) 30%, transparent);
-  }
   
   /* Shimmer effect */
   .shimmer {

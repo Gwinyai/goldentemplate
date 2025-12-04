@@ -84,9 +84,8 @@ export function HeroSection({
 
               {/* Headlines */}
               <h1 className="text-5xl font-heading font-extrabold tracking-tight text-text-primary sm:text-6xl lg:text-7xl animate-fade-in">
-                <span className="text-gradient-primary">
-                  {headline}
-                </span>
+                <span>Launch Your SaaS In </span>
+                <span className="text-gradient-primary">Just A Weekend</span>
               </h1>
               <p className="mt-8 text-xl leading-relaxed text-text-secondary animate-slide-in">
                 {subheadline}
@@ -117,11 +116,11 @@ export function HeroSection({
                   </Link>
                 </Button>
                 {secondaryCta && (
-                  <Button 
-                    variant="outline" 
-                    size="lg" 
-                    className="btn-secondary px-8 py-4 text-lg rounded-lg"
-                    asChild
+                <Button 
+                  variant="outline" 
+                  size="lg" 
+                  className="btn-secondary px-8 py-4 text-lg rounded-lg"
+                  asChild
                   >
                     <Link href={secondaryCta.href}>
                       {secondaryCta.text}
@@ -134,21 +133,21 @@ export function HeroSection({
               <div className="mt-12">
                 <div className="flex items-center gap-4 text-sm text-text-muted">
                   <div className="flex -space-x-2">
-                    <div className="h-8 w-8 rounded-full bg-gradient-primary ring-2 ring-surface shadow-sm flex items-center justify-center">
-                      <span className="text-xs font-bold text-white">S</span>
-                    </div>
-                    <div className="h-8 w-8 rounded-full bg-gradient-secondary ring-2 ring-surface shadow-sm flex items-center justify-center">
-                      <span className="text-xs font-bold text-white">M</span>
-                    </div>
-                    <div className="h-8 w-8 rounded-full bg-gradient-accent ring-2 ring-surface shadow-sm flex items-center justify-center">
-                      <span className="text-xs font-bold text-white">E</span>
-                    </div>
-                    <div className="h-8 w-8 rounded-full bg-gradient-primary ring-2 ring-surface shadow-sm flex items-center justify-center">
-                      <span className="text-xs font-bold text-white">D</span>
-                    </div>
-                    <div className="h-8 w-8 rounded-full bg-gradient-secondary ring-2 ring-surface shadow-sm flex items-center justify-center text-xs font-bold text-white">
-                      +964
-                    </div>
+                    <img 
+                      src="/client1.png"
+                      alt="Client testimonial" 
+                      className="h-8 w-8 rounded-full ring-2 ring-surface shadow-sm object-cover"
+                    />
+                    <img 
+                      src="/client2.png"
+                      alt="Client testimonial" 
+                      className="h-8 w-8 rounded-full ring-2 ring-surface shadow-sm object-cover"
+                    />
+                    <img 
+                      src="/client3.png"
+                      alt="Client testimonial" 
+                      className="h-8 w-8 rounded-full ring-2 ring-surface shadow-sm object-cover"
+                    />
                   </div>
                   <div>
                     <p className="font-semibold text-text-primary">967+ developers</p>
@@ -199,11 +198,11 @@ export function HeroSection({
           </div>
 
           {/* Image */}
-          <div className="mt-16 lg:col-span-5 lg:mt-0">
-            <div className="relative">
+          <div className="mt-10 lg:col-span-5 lg:mt-0 flex items-start">
+            <div className="relative w-full">
               {image ? (
                 <img
-                  className="aspect-[4/3] w-full rounded-xl bg-surface object-contain shadow-xl p-8"
+                  className="aspect-[6/5] w-full object-contain"
                   src={image.src}
                   alt={image.alt}
                 />

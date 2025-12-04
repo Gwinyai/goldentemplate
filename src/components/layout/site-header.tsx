@@ -115,19 +115,19 @@ export function SiteHeader({ user }: SiteHeaderProps) {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60 shadow-sm">
-      <div className="container flex h-16 items-center px-6">
+      <div className="container mx-auto flex h-16 items-center gap-6 px-container-mobile md:px-container max-w-page">
         {/* Logo/Brand */}
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-2 flex-1 min-w-[180px]">
           <Link href={user ? "/app" : "/"} className="flex items-center space-x-2 group">
             {logoVisible && (
               <img
                 src="/logo.png"
                 alt={tokens.brandName}
-                className="h-12 w-12 rounded-lg object-contain bg-surface shadow-md group-hover:shadow-lg transition-all duration-200"
+                className="h-12 w-12 object-contain"
                 onError={() => setLogoVisible(false)}
               />
             )}
-            <span className="font-heading text-xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+            <span className="font-heading text-xl font-bold text-text-primary">
               {tokens.brandName}
             </span>
           </Link>
@@ -141,10 +141,10 @@ export function SiteHeader({ user }: SiteHeaderProps) {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`px-3 py-2 text-sm font-medium rounded-md transition-all duration-200 ${
+                className={`nav-link px-3 py-2 text-sm font-medium rounded-md transition-all duration-200 ${
                   isActive(item.href)
-                    ? "text-primary bg-primary/10"
-                    : "text-foreground/70 hover:text-primary hover:bg-primary/5"
+                    ? "text-[var(--token-text-primary)] bg-primary/10"
+                    : "text-[var(--token-text-muted)] hover:text-[var(--token-text-primary)] hover:bg-primary/5"
                 }`}
               >
                 {item.label}
@@ -156,10 +156,10 @@ export function SiteHeader({ user }: SiteHeaderProps) {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`px-3 py-2 text-sm font-medium rounded-md transition-all duration-200 ${
+                className={`nav-link px-3 py-2 text-sm font-medium rounded-md transition-all duration-200 ${
                   isActive(item.href)
-                    ? "text-primary bg-primary/10"
-                    : "text-foreground/70 hover:text-primary hover:bg-primary/5"
+                    ? "text-[var(--token-text-primary)] bg-primary/10"
+                    : "text-[var(--token-text-muted)] hover:text-[var(--token-text-primary)] hover:bg-primary/5"
                 }`}
               >
                 {item.label}
@@ -169,7 +169,7 @@ export function SiteHeader({ user }: SiteHeaderProps) {
         </nav>
 
         {/* User Actions */}
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-3 justify-end flex-1 min-w-[180px]">
           {user ? (
             <div className="flex items-center space-x-2">
               {/* Admin Navigation - single Admin link only */}
@@ -237,10 +237,10 @@ export function SiteHeader({ user }: SiteHeaderProps) {
           ) : (
             isUserAccountsEnabled() && (
               <div className="flex items-center space-x-2">
-                <Button variant="ghost" size="sm" className="hover:bg-primary/5" asChild>
+                <Button variant="ghost" size="sm" className="btn-secondary px-4 py-2" asChild>
                   <Link href="/login">Sign In</Link>
                 </Button>
-                <Button size="sm" className="bg-gradient-to-r from-primary to-secondary hover:shadow-lg transition-all duration-200" asChild>
+                <Button size="sm" className="btn-primary px-4 py-2" asChild>
                   <Link href="/register">Sign Up</Link>
                 </Button>
               </div>

@@ -237,7 +237,7 @@ export interface UserRole {
 
 // Theme and design configuration
 export interface ThemeConfig {
-  mode: 'light' | 'dark' | 'system';
+  mode: 'light';
   colors: {
     primary: string;
     secondary: string;
@@ -582,7 +582,7 @@ export const defaultTemplateConfig: Partial<TemplateConfig> = {
     },
   },
   theme: {
-    mode: 'system',
+    mode: 'light',
     colors: {
       primary: '#3b82f6',
       secondary: '#64748b',

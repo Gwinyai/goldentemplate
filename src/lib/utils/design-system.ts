@@ -7,6 +7,29 @@
 
 import { tokens } from "@/design-tokens";
 
+function applyColorVariables(root: HTMLElement) {
+  // Core palette
+  root.style.setProperty("--token-primary", tokens.colors.primary);
+  root.style.setProperty("--token-secondary", tokens.colors.secondary);
+  root.style.setProperty("--token-accent", tokens.colors.accent);
+  root.style.setProperty("--token-neutral", tokens.colors.neutral);
+  root.style.setProperty("--token-success", tokens.colors.success);
+  root.style.setProperty("--token-warning", tokens.colors.warning);
+  root.style.setProperty("--token-danger", tokens.colors.danger);
+  root.style.setProperty("--token-background", tokens.colors.background);
+  root.style.setProperty("--token-surface", tokens.colors.surface);
+
+  // Text palette
+  root.style.setProperty("--token-text-primary", tokens.colors.text.primary);
+  root.style.setProperty("--token-text-secondary", tokens.colors.text.secondary);
+  root.style.setProperty("--token-text-muted", tokens.colors.text.muted);
+  root.style.setProperty("--token-text-inverse", tokens.colors.text.inverse);
+
+  // Borders
+  root.style.setProperty("--token-border-default", tokens.colors.border.default);
+  root.style.setProperty("--token-border-light", tokens.colors.border.light);
+}
+
 /**
  * Apply design system settings to the document
  * Call this on app initialization to apply gradient/shadow settings
@@ -15,6 +38,9 @@ export function applyDesignSystemSettings() {
   if (typeof document === "undefined") return;
 
   const root = document.documentElement;
+
+  // Sync CSS variables with current tokens so text-muted/foreground stays token-driven
+  applyColorVariables(root);
 
   // Apply gradient settings
   if (tokens.effects.gradients.enabled) {
@@ -86,4 +112,3 @@ export function getShadowIntensity(): number {
     ? intensityMap[tokens.effects.shadows.intensity] 
     : 0;
 }
-

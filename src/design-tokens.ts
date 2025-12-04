@@ -151,32 +151,32 @@ export interface DesignTokens {
 export const tokens: DesignTokens = {
   brandName: "VibeGuide",
   colors: {
-    // Rich indigo-blue primary - modern and trustworthy
-    primary: "#6366f1",
-    // Vibrant purple secondary - creative and energetic
-    secondary: "#8b5cf6",
+    // Deep violet primary - modern and punchy
+    primary: "#7c3aed",
+    // Brightened secondary violet
+    secondary: "#a855f7",
     // Electric cyan accent - fresh and attention-grabbing
     accent: "#06b6d4",
-    // Warm slate neutral - sophisticated and readable
-    neutral: "#64748b",
+    // Cool slate neutral - sophisticated and readable on dark
+    neutral: "#94a3b8",
     // Status colors - vivid and clear
     success: "#10b981",
     warning: "#f59e0b",
     danger: "#ef4444",
-    // Surface colors - soft and inviting
-    background: "#fafafa",
-    surface: "#ffffff",
+    // Surface colors - dark theme
+    background: "#0b1220",
+    surface: "#111827",
 
     text: {
-      primary: "#0f172a",      // slate-900 - darkest
-      secondary: "#475569",    // slate-600 - medium
-      muted: "#94a3b8",        // slate-400 - light
-      inverse: "#ffffff"       // white - on colored backgrounds
+      primary: "#e2e8f0",      // slate-200
+      secondary: "#cbd5e1",    // slate-300
+      muted: "#94a3b8",        // slate-400
+      inverse: "#0b1220"       // dark on light surfaces if needed
     },
 
     border: {
-      default: "#e2e8f0",      // slate-200
-      light: "#f1f5f9"         // slate-100
+      default: "#1f2937",      // slate-800
+      light: "#243045"         // custom dark border
     }
   },
   typography: {

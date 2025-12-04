@@ -130,7 +130,7 @@ export const userSchemas = {
   }),
 
   preferences: z.object({
-    theme: z.enum(["light", "dark", "system"]).default("system"),
+    theme: z.enum(["light"]).default("light"),
     language: z.string().default("en"),
     notifications: z.object({
       email: z.boolean().default(true),

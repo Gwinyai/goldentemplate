@@ -32,9 +32,9 @@ const colorClasses = {
 const iconBgClasses = {
   default: "bg-muted",
   primary: "bg-primary/10",
-  success: "bg-green-100 dark:bg-green-900/20",
-  warning: "bg-yellow-100 dark:bg-yellow-900/20",
-  danger: "bg-red-100 dark:bg-red-900/20",
+  success: "bg-green-100",
+  warning: "bg-yellow-100",
+  danger: "bg-red-100",
 };
 
 const columnClasses = {
