@@ -49,13 +49,13 @@ export function FeaturesSection({
               key={index} 
               className={`card-base card-hover relative group bg-surface border-border-light ${
                 feature.highlight 
-                  ? "ring-2 ring-primary/50 shadow-lg bg-gradient-primary/5" 
+                  ? "ring-2 ring-primary/50 shadow-lg bg-primary/5" 
                   : "hover:shadow-md hover:-translate-y-2 border-border-light/50"
               }`}
             >
               {feature.highlight && (
                 <div className="absolute -top-3 left-6 z-10">
-                  <span className="bg-gradient-primary text-text-inverse px-4 py-2 text-sm font-bold rounded-pill shadow-md">
+                  <span className="bg-primary text-white px-4 py-2 text-sm font-bold rounded-pill shadow-md">
                     Most Popular
                   </span>
                 </div>
@@ -65,20 +65,16 @@ export function FeaturesSection({
               <div className="absolute inset-0 rounded-lg bg-gradient-to-br from-primary/0 to-secondary/0 group-hover:from-primary/5 group-hover:to-secondary/5 transition-all duration-300 pointer-events-none" />
               
               <CardHeader className="relative z-10 p-8">
-                <div className={`h-14 w-14 rounded-xl flex items-center justify-center mb-6 transition-all duration-300 ${
-                  feature.highlight 
-                    ? "bg-gradient-primary shadow-md" 
-                    : "bg-primary/10 group-hover:bg-gradient-primary group-hover:shadow-md"
-                }`}>
-                  <div className={feature.highlight ? "text-text-inverse" : "text-primary group-hover:text-text-inverse transition-colors"}>
+                <div className="h-14 w-14 rounded-xl flex items-center justify-center mb-6 transition-all duration-300 bg-primary shadow-md">
+                  <div className="text-white">
                     {feature.icon}
                   </div>
                 </div>
-                <CardTitle className="text-2xl font-heading font-bold text-text-primary group-hover:text-primary transition-colors">{feature.title}</CardTitle>
+                <CardTitle className="text-2xl font-heading font-bold text-foreground group-hover:text-primary transition-colors">{feature.title}</CardTitle>
               </CardHeader>
               
               <CardContent className="relative z-10 p-8 pt-0">
-                <CardDescription className="text-lg text-text-secondary leading-relaxed">
+                <CardDescription className="text-lg text-muted-foreground leading-relaxed">
                   {feature.description}
                 </CardDescription>
               </CardContent>
@@ -101,7 +97,6 @@ export function DefaultFeaturesSection() {
       ),
       title: "Next.js 14 + TypeScript",
       description: "Built on the latest Next.js with TypeScript, Tailwind CSS, and modern React patterns for maximum performance and developer experience.",
-      highlight: true,
     },
     {
       icon: (

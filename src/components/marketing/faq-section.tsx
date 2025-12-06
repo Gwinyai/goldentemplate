@@ -22,7 +22,7 @@ export function FAQSection({ title, subtitle, faqs }: FAQSectionProps) {
   };
 
   return (
-    <section className="py-16 sm:py-24">
+    <section className="py-section-mobile md:py-section">
       <div className="container mx-auto px-container-mobile md:px-container max-w-page">
         <div className="mx-auto max-w-3xl text-center mb-12">
           <h2 className="section-title">{title}</h2>

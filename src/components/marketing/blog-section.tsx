@@ -7,11 +7,10 @@ interface BlogPost {
   title: string;
   excerpt: string;
   content?: string;
-  author: {
-    name: string;
-    avatar?: string;
-  };
-  publishedAt: string;
+    author: {
+      name: string;
+    };
+    publishedAt: string;
   readingTime: number;
   category: string;
   tags?: string[];
@@ -57,7 +56,7 @@ export function BlogSection({
   const displayPosts = maxPosts ? posts.slice(0, maxPosts) : posts;
 
   return (
-    <section className="py-16 sm:py-24 relative">
+    <section className="py-section-mobile md:py-section relative">
       <div className="container mx-auto px-6">
         {/* Header */}
         <div className="mx-auto max-w-3xl text-center mb-16">
@@ -142,42 +141,21 @@ function BlogCard({
           )}
         </div>
         
-        <CardTitle className="line-clamp-2">
+        <CardTitle className="line-clamp-2 leading-tight">
           <Link href={`/blog/${post.slug}`} className="hover:text-primary transition-colors group-hover:text-primary">
             {post.title}
           </Link>
         </CardTitle>
         
         {showExcerpts && (
-          <CardDescription className="line-clamp-3">
+          <CardDescription className="line-clamp-3 mt-3 leading-7 text-text-secondary">
             {post.excerpt}
           </CardDescription>
         )}
       </CardHeader>
 
       <CardContent className="pt-0">
-        <div className="flex items-center justify-between text-sm text-muted-foreground">
-          <div className="flex items-center gap-4">
-            {showAuthors && (
-              <div className="flex items-center gap-2">
-                {post.author.avatar ? (
-                  <img
-                    src={post.author.avatar}
-                    alt={post.author.name}
-                    className="h-6 w-6 rounded-full"
-                  />
-                ) : (
-                  <div className="h-6 w-6 rounded-full bg-primary/20 flex items-center justify-center">
-                    <span className="text-xs font-medium">
-                      {post.author.name.charAt(0)}
-                    </span>
-                  </div>
-                )}
-                <span>{post.author.name}</span>
-              </div>
-            )}
-          </div>
-          
+          <div className="flex items-center justify-between text-sm text-muted-foreground">
           <div className="flex items-center gap-2">
             <span>{formatDate(post.publishedAt)}</span>
             {showReadingTime && (
@@ -288,7 +266,10 @@ export function DefaultBlogSection() {
       publishedAt: "2024-01-15",
       readingTime: 5,
       category: "Getting Started",
-      featured: true,
+      image: {
+        src: "/blog1.png",
+        alt: "Building your first SaaS in days, not months",
+      },
     },
     {
       slug: "best-practices",
@@ -300,6 +281,10 @@ export function DefaultBlogSection() {
       publishedAt: "2024-01-10",
       readingTime: 8,
       category: "Best Practices",
+      image: {
+        src: "/blog2.png",
+        alt: "Design token architecture for scalable UI systems",
+      },
     },
     {
       slug: "feature-announcement",
@@ -311,6 +296,10 @@ export function DefaultBlogSection() {
       publishedAt: "2024-01-05",
       readingTime: 3,
       category: "Product Updates",
+      image: {
+        src: "/blog3.png",
+        alt: "Advanced analytics dashboard and monitoring",
+      },
     },
   ];
 

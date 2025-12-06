@@ -95,15 +95,278 @@
   border: 1px solid color-mix(in srgb, var(--token-border-light) 50%, transparent);
 }
 
-/* Ensure bg-primary utility class is available */
+/* Design Token Utility Classes - Systematic Fix for Tailwind CSS Generation Issues */
+
+/* Gradient Background Utilities */
+.bg-gradient-primary {
+  background: linear-gradient(135deg, var(--token-primary) 0%, var(--token-secondary) 50%, var(--token-accent) 100%) !important;
+}
+
+.bg-gradient-secondary {
+  background: linear-gradient(to right, var(--token-secondary) 0%, var(--token-accent) 100%) !important;
+}
+
+.bg-gradient-accent {
+  background: linear-gradient(to right, var(--token-accent) 0%, var(--token-primary) 100%) !important;
+}
+
+.bg-gradient-background {
+  background: linear-gradient(to bottom right, var(--token-background) 0%, var(--token-surface) 50%, var(--token-neutral) 100%) !important;
+}
+
+/* Gradient Text Utilities */
+.text-gradient-primary {
+  background: linear-gradient(135deg, var(--token-primary) 0%, var(--token-secondary) 50%, var(--token-accent) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* Custom Gradient Combinations with Design Tokens */
+.bg-gradient-to-br.from-primary {
+  background: linear-gradient(to bottom right, var(--token-primary), var(--token-secondary)) !important;
+}
+
+.bg-gradient-to-r.from-primary {
+  background: linear-gradient(to right, var(--token-primary), var(--token-secondary)) !important;
+}
+
+/* Background Color Utilities */
 .bg-primary {
   background-color: var(--token-primary) !important;
 }
 
+.bg-secondary {
+  background-color: var(--token-secondary) !important;
+}
+
+.bg-accent {
+  background-color: var(--token-accent) !important;
+}
+
+.bg-neutral {
+  background-color: var(--token-neutral) !important;
+}
+
+.bg-success {
+  background-color: var(--token-success) !important;
+}
+
+.bg-warning {
+  background-color: var(--token-warning) !important;
+}
+
+.bg-danger {
+  background-color: var(--token-danger) !important;
+}
+
+.bg-background {
+  background-color: var(--token-background) !important;
+}
+
+.bg-surface {
+  background-color: var(--token-surface) !important;
+}
+
+/* Text Color Utilities */
 .text-primary {
   color: var(--token-primary) !important;
 }
 
+.text-secondary {
+  color: var(--token-secondary) !important;
+}
+
+.text-accent {
+  color: var(--token-accent) !important;
+}
+
+.text-neutral {
+  color: var(--token-neutral) !important;
+}
+
+.text-success {
+  color: var(--token-success) !important;
+}
+
+.text-warning {
+  color: var(--token-warning) !important;
+}
+
+.text-danger {
+  color: var(--token-danger) !important;
+}
+
+.text-text-primary {
+  color: var(--token-text-primary) !important;
+}
+
+.text-text-secondary {
+  color: var(--token-text-secondary) !important;
+}
+
+.text-text-muted {
+  color: var(--token-text-muted) !important;
+}
+
+.text-text-inverse {
+  color: var(--token-text-inverse) !important;
+}
+
+/* Border Color Utilities */
 .border-primary {
   border-color: var(--token-primary) !important;
+}
+
+.border-secondary {
+  border-color: var(--token-secondary) !important;
+}
+
+.border-accent {
+  border-color: var(--token-accent) !important;
+}
+
+.border-neutral {
+  border-color: var(--token-neutral) !important;
+}
+
+.border-success {
+  border-color: var(--token-success) !important;
+}
+
+.border-warning {
+  border-color: var(--token-warning) !important;
+}
+
+.border-danger {
+  border-color: var(--token-danger) !important;
+}
+
+.border-border {
+  border-color: var(--token-border-default) !important;
+}
+
+.border-border-light {
+  border-color: var(--token-border-light) !important;
+}
+
+/* Typography Utilities */
+.font-primary {
+  font-family: var(--token-font-primary) !important;
+}
+
+.font-secondary {
+  font-family: var(--token-font-secondary) !important;
+}
+
+.font-heading {
+  font-family: var(--token-font-secondary) !important;
+}
+
+.font-mono {
+  font-family: var(--token-font-mono) !important;
+}
+
+/* Text Size Utilities (Design Token Driven) */
+.text-xs {
+  font-size: 0.75rem !important;
+  line-height: 1rem !important;
+}
+
+.text-sm {
+  font-size: 0.875rem !important;
+  line-height: 1.25rem !important;
+}
+
+.text-base {
+  font-size: 1rem !important;
+  line-height: 1.5rem !important;
+}
+
+.text-lg {
+  font-size: 1.125rem !important;
+  line-height: 1.75rem !important;
+}
+
+.text-xl {
+  font-size: 1.25rem !important;
+  line-height: 1.75rem !important;
+}
+
+.text-2xl {
+  font-size: 1.5rem !important;
+  line-height: 2rem !important;
+}
+
+.text-3xl {
+  font-size: 1.875rem !important;
+  line-height: 2.25rem !important;
+}
+
+.text-4xl {
+  font-size: 2.25rem !important;
+  line-height: 2.5rem !important;
+}
+
+.text-5xl {
+  font-size: 3rem !important;
+  line-height: 1 !important;
+}
+
+.text-6xl {
+  font-size: 3.75rem !important;
+  line-height: 1 !important;
+}
+
+.text-7xl {
+  font-size: 4.5rem !important;
+  line-height: 1 !important;
+}
+
+/* Font Weight Utilities */
+.font-normal {
+  font-weight: 400 !important;
+}
+
+.font-medium {
+  font-weight: 500 !important;
+}
+
+.font-semibold {
+  font-weight: 600 !important;
+}
+
+.font-bold {
+  font-weight: 700 !important;
+}
+
+.font-extrabold {
+  font-weight: 800 !important;
+}
+
+/* Line Height Utilities */
+.leading-tight {
+  line-height: 1.25 !important;
+}
+
+.leading-normal {
+  line-height: 1.5 !important;
+}
+
+.leading-relaxed {
+  line-height: 1.75 !important;
+}
+
+/* Letter Spacing Utilities */
+.tracking-tight {
+  letter-spacing: -0.025em !important;
+}
+
+.tracking-normal {
+  letter-spacing: 0em !important;
+}
+
+.tracking-wide {
+  letter-spacing: 0.025em !important;
 }

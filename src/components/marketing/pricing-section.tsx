@@ -47,7 +47,7 @@ export function PricingSection({
   };
 
   return (
-    <section className="py-16 sm:py-24">
+    <section className="py-section-mobile md:py-section">
       <div className="container mx-auto px-container-mobile md:px-container max-w-page">
         {/* Header */}
         <div className="mx-auto max-w-3xl text-center mb-16">
@@ -65,25 +65,23 @@ export function PricingSection({
             <div className="mt-8 flex items-center justify-center">
               <div className="relative inline-flex items-center rounded-full bg-surface border border-border px-1 py-1 shadow-lg overflow-hidden">
                 <span
-                  className="absolute inset-y-1 w-1/2 rounded-full bg-primary shadow-md transition-transform duration-300 ease-out z-0"
-                  style={{ transform: billing === "monthly" ? "translateX(0%)" : "translateX(100%)" }}
+                  className="absolute inset-y-1 w-28 rounded-full bg-primary shadow-md transition-transform duration-300 ease-out z-0"
+                  style={{ 
+                    transform: billing === "monthly" ? "translateX(0.25rem)" : "translateX(calc(7rem + 0.25rem))",
+                    left: 0
+                  }}
                 />
                 {(["monthly","yearly"] as const).map((option) => (
                   <button
                     key={option}
                     onClick={() => setBilling(option)}
-                    className={`relative z-10 px-6 py-2.5 text-sm font-semibold transition-colors duration-300 rounded-full ${
+                    className={`relative z-10 px-6 py-2.5 text-sm font-semibold transition-colors duration-300 rounded-full w-28 ${
                       billing === option
                         ? "text-white"
                         : "text-muted-foreground hover:text-foreground"
                     }`}
                   >
                     {option === "monthly" ? "Monthly" : "Yearly"}
-                    {option === "yearly" && (
-                      <span className="ml-2 text-xs bg-accent text-white px-2 py-0.5 rounded-full font-bold shadow-sm">
-                        Save 20%
-                      </span>
-                    )}
                   </button>
                 ))}
               </div>

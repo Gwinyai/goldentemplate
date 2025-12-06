@@ -101,9 +101,13 @@ export function SiteFooter() {
           {/* Brand Section */}
           <div className="lg:col-span-2">
             <div className="flex items-center space-x-2 mb-4">
-              <div className="h-8 w-8 rounded bg-primary" />
-              <span className="font-heading text-xl font-bold">
-                {tokens.brandName}
+              <img
+                src="/logo.png"
+                alt="VibeCodeMax"
+                className="h-10 w-10 object-contain"
+              />
+              <span className="font-heading text-xl font-bold text-white">
+                VibeCodeMax
               </span>
             </div>
             <p className="text-sm text-muted-foreground mb-6 max-w-xs">
@@ -129,7 +133,7 @@ export function SiteFooter() {
           {/* Footer Links */}
           {footerSections.map((section) => (
             <div key={section.title}>
-              <h3 className="font-semibold text-foreground mb-4">
+              <h3 className="text-sm font-semibold text-foreground mb-4">
                 {section.title}
               </h3>
               <ul className="space-y-2">
@@ -154,32 +158,11 @@ export function SiteFooter() {
         <div className="border-t pt-8 mt-8">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className="flex items-center space-x-4 text-sm text-muted-foreground">
-              <span>© 2024 {tokens.brandName}. All rights reserved.</span>
-            </div>
-            
-            <div className="flex items-center space-x-6 text-sm text-muted-foreground">
-              <Link href="/privacy" className="hover:text-foreground transition-colors">
-                Privacy
-              </Link>
-              <Link href="/terms" className="hover:text-foreground transition-colors">
-                Terms
-              </Link>
-              <Link href="/cookies" className="hover:text-foreground transition-colors">
-                Cookies
-              </Link>
+              <span>© 2025 VibeCodeMax. All rights reserved.</span>
             </div>
           </div>
         </div>
 
-        {/* Build Info - Hidden in production */}
-        {process.env.NODE_ENV === "development" && (
-          <div className="border-t pt-4 mt-4">
-            <div className="text-xs text-muted-foreground text-center">
-              VibeGuide Golden Template • Built with Next.js 14+ • 
-              Generated from template placeholders
-            </div>
-          </div>
-        )}
       </div>
     </footer>
   );

@@ -53,7 +53,7 @@ export function TestimonialsSection({
   columns = 3,
 }: TestimonialsSectionProps) {
   return (
-    <section className="py-16 sm:py-24 relative">
+    <section className="py-section-mobile md:py-section relative">
       <div className="container mx-auto px-6">
         {/* Header */}
         <div className="mx-auto max-w-4xl text-center mb-16">
@@ -100,7 +100,7 @@ export function TestimonialsSection({
                         alt={testimonial.author.name}
                       />
                     ) : (
-                      <div className="h-12 w-12 rounded-full bg-gradient-primary flex items-center justify-center shadow-primary">
+                      <div className="h-12 w-12 rounded-full bg-gradient-primary flex items-center justify-center shadow-md">
                         <span className="text-sm font-bold text-white">
                           {testimonial.author.name.charAt(0)}
                         </span>
@@ -125,27 +125,6 @@ export function TestimonialsSection({
           ))}
         </div>
 
-        {/* Trust Indicators */}
-        <div className="mt-16 text-center">
-          <p className="text-sm font-medium text-muted-foreground mb-8">
-            Trusted by thousands of customers worldwide
-          </p>
-          
-          <div className="flex items-center justify-center gap-8 flex-wrap">
-            {["logo1.png", "logo2.png", "logo3.png"].map((logo) => (
-              <div
-                key={logo}
-                className="h-32 w-60 rounded-lg flex items-center justify-center bg-surface/80 shadow-sm transition-all duration-300 hover:scale-105"
-              >
-                <img
-                  src={`/${logo}`}
-                  alt={`Customer logo ${logo}`}
-                  className="h-28 w-auto object-contain"
-                />
-              </div>
-            ))}
-          </div>
-        </div>
       </div>
     </section>
   );

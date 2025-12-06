@@ -69,13 +69,7 @@
     opacity: 0.8;
   }
 
-  /* Nav links: token-driven muted/hover primary overrides base link color */
-  .nav-link {
-    color: var(--token-text-muted) !important;
-  }
-  .nav-link:hover {
-    color: var(--token-text-primary) !important;
-  }
+  /* Removed nav-link overrides - navigation now uses consistent muted-foreground/foreground classes */
   
   /* Focus styles */
   *:focus-visible {

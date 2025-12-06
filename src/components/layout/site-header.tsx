@@ -141,10 +141,10 @@ export function SiteHeader({ user }: SiteHeaderProps) {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`nav-link px-3 py-2 text-sm font-medium rounded-md transition-all duration-200 ${
+                className={`px-3 py-2 text-sm font-medium rounded-md transition-all duration-200 ${
                   isActive(item.href)
-                    ? "text-[var(--token-text-primary)] bg-primary/10"
-                    : "text-[var(--token-text-muted)] hover:text-[var(--token-text-primary)] hover:bg-primary/5"
+                    ? "text-foreground bg-primary/10"
+                    : "text-muted-foreground hover:text-foreground hover:bg-primary/5"
                 }`}
               >
                 {item.label}
@@ -156,10 +156,10 @@ export function SiteHeader({ user }: SiteHeaderProps) {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`nav-link px-3 py-2 text-sm font-medium rounded-md transition-all duration-200 ${
+                className={`px-3 py-2 text-sm font-medium rounded-md transition-all duration-200 ${
                   isActive(item.href)
-                    ? "text-[var(--token-text-primary)] bg-primary/10"
-                    : "text-[var(--token-text-muted)] hover:text-[var(--token-text-primary)] hover:bg-primary/5"
+                    ? "text-foreground bg-primary/10"
+                    : "text-muted-foreground hover:text-foreground hover:bg-primary/5"
                 }`}
               >
                 {item.label}
@@ -289,10 +289,10 @@ export function SiteHeader({ user }: SiteHeaderProps) {
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={`block px-3 py-2 text-base font-medium transition-colors hover:text-primary ${
+                    className={`block px-3 py-2 text-base font-medium transition-colors ${
                       isActive(item.href)
                         ? "text-foreground bg-accent/50"
-                        : "text-foreground/60"
+                        : "text-muted-foreground hover:text-foreground"
                     }`}
                     onClick={() => setMobileMenuOpen(false)}
                   >
@@ -327,10 +327,10 @@ export function SiteHeader({ user }: SiteHeaderProps) {
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={`block px-3 py-2 text-base font-medium transition-colors hover:text-primary ${
+                    className={`block px-3 py-2 text-base font-medium transition-colors ${
                       isActive(item.href)
                         ? "text-foreground bg-accent/50"
-                        : "text-foreground/60"
+                        : "text-muted-foreground hover:text-foreground"
                     }`}
                     onClick={() => setMobileMenuOpen(false)}
                   >
