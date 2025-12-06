@@ -177,8 +177,7 @@
   /* Enhanced button utilities following component tokens */
   .btn-primary {
     background-color: var(--token-primary);
-    color: var(--token-text-inverse);
-    border-radius: var(--token-radius-lg);
+    color: var(--token-text-primary);
     box-shadow: var(--token-shadow-md);
     font-weight: 600;
     transition: all 0.2s;
@@ -194,7 +193,6 @@
     background-color: var(--token-surface);
     color: var(--token-text-primary);
     border: 1px solid var(--token-border-default);
-    border-radius: var(--token-radius-lg);
     font-weight: 500;
     transition: all 0.2s;
   }
@@ -220,4 +218,34 @@
     box-shadow: var(--token-shadow-md);
     transform: translateY(-2px);
   }
+
+  /* Section title utility for consistent headings */
+  .section-title {
+    font-family: var(--token-font-secondary);
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    color: var(--token-text-primary);
+    font-size: 2.25rem; /* 36px */
+    line-height: 1.25;
+  }
+
+  @media (min-width: 640px) {
+    .section-title {
+      font-size: 2.5rem; /* 40px */
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .section-title {
+      font-size: 3rem; /* 48px */
+    }
+  }
+
+  /* Section description utility */
+  .section-description {
+    font-size: 1.125rem; /* text-lg */
+    line-height: 1.75rem; /* leading-7/8 */
+    color: var(--token-text-muted);
+  }
 }
+/* Force Tailwind to generate: bg-primary text-primary border-primary */

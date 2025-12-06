@@ -21,11 +21,6 @@ export interface NavigationSection {
 // Main site navigation (header)
 export const mainNav: NavigationItem[] = [
   {
-    title: "Features",
-    href: "/#features",
-    description: "Explore our powerful features",
-  },
-  {
     title: "Pricing", 
     href: "/#pricing",
     description: "Simple, transparent pricing",
@@ -34,11 +29,6 @@ export const mainNav: NavigationItem[] = [
     title: "Blog",
     href: "/blog",
     description: "Latest news and insights",
-  },
-  {
-    title: "About",
-    href: "/about",
-    description: "Learn more about us",
   },
   {
     title: "Contact",

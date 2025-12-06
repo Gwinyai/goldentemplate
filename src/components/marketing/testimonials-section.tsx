@@ -56,12 +56,12 @@ export function TestimonialsSection({
     <section className="py-16 sm:py-24 relative">
       <div className="container mx-auto px-6">
         {/* Header */}
-        <div className="mx-auto max-w-3xl text-center mb-16">
-          <h2 className="text-3xl font-heading font-bold tracking-tight sm:text-4xl">
-            <span className="text-gradient-primary">{title}</span>
+        <div className="mx-auto max-w-4xl text-center mb-16">
+          <h2 className="section-title">
+            <span>{title}</span>
           </h2>
           {subtitle && (
-            <p className="mt-6 text-lg leading-8 text-muted-foreground">
+            <p className="mt-6 section-description">
               {subtitle}
             </p>
           )}
@@ -131,16 +131,17 @@ export function TestimonialsSection({
             Trusted by thousands of customers worldwide
           </p>
           
-          {/* Company Logos Placeholder */}
           <div className="flex items-center justify-center gap-8 flex-wrap">
-            {[1, 2, 3, 4, 5].map((i) => (
+            {["logo1.png", "logo2.png", "logo3.png"].map((logo) => (
               <div
-                key={i}
-                className="h-14 w-28 bg-gradient-to-br from-muted to-muted/50 rounded-lg flex items-center justify-center border border-border/50 hover:border-primary/30 transition-all duration-300 hover:scale-105 grayscale hover:grayscale-0"
+                key={logo}
+                className="h-32 w-60 rounded-lg flex items-center justify-center bg-surface/80 shadow-sm transition-all duration-300 hover:scale-105"
               >
-                <span className="text-xs font-bold text-muted-foreground">
-                  Logo {i}
-                </span>
+                <img
+                  src={`/${logo}`}
+                  alt={`Customer logo ${logo}`}
+                  className="h-28 w-auto object-contain"
+                />
               </div>
             ))}
           </div>
@@ -154,7 +155,7 @@ export function TestimonialsSection({
 export function DefaultTestimonialsSection() {
   const defaultTestimonials: Testimonial[] = [
     {
-      quote: "VibeGuide saved us months of development time. The authentication and payment systems work flawlessly out of the box.",
+      quote: "VibeCodeMax saved us months of development time. The authentication and payment systems work flawlessly out of the box.",
       author: {
         name: "Sarah Chen",
         title: "CTO",
@@ -181,7 +182,7 @@ export function DefaultTestimonialsSection() {
       rating: 5,
     },
     {
-      quote: "VibeGuide's architecture is solid. Scaling from MVP to 10k users was seamless with their foundation.",
+      quote: "VibeCodeMax's architecture is solid. Scaling from MVP to 10k users was seamless with their foundation.",
       author: {
         name: "David Kim",
         title: "Lead Engineer",
@@ -211,8 +212,8 @@ export function DefaultTestimonialsSection() {
 
   return (
     <TestimonialsSection
-      title="Loved by thousands of developers"
-      subtitle="See what builders are saying about VibeGuide and how it's transformed their development workflow."
+      title="Loved By Thousands Of Developers"
+      subtitle="See what builders are saying about VibeCodeMax and how it's transformed their development workflow."
       testimonials={defaultTestimonials}
       layout="grid"
       columns={3}

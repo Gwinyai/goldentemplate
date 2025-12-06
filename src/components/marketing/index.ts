@@ -16,3 +16,6 @@ export { TestimonialsSection, DefaultTestimonialsSection } from "./testimonials-
 // Blog Components
 export { BlogSection, DefaultBlogSection } from "./blog-section";
 export { BlogPost } from "./blog-post";
+
+// FAQ Components
+export { FAQSection, DefaultFAQSection } from "./faq-section";

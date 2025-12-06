@@ -127,8 +127,8 @@ export function SiteHeader({ user }: SiteHeaderProps) {
                 onError={() => setLogoVisible(false)}
               />
             )}
-            <span className="font-heading text-xl font-bold text-text-primary">
-              {tokens.brandName}
+            <span className="font-heading text-xl font-bold text-white">
+              VibeCodeMax
             </span>
           </Link>
         </div>

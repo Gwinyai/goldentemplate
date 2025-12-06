@@ -7,6 +7,7 @@ import {
   DefaultPricingSection,
   DefaultTestimonialsSection,
   DefaultBlogSection,
+  DefaultFAQSection,
 } from "@/components/marketing";
 import { Section } from "@/components/layout";
 
@@ -34,6 +35,11 @@ export default function HomePage() {
       {/* Blog Section */}
       <Section background="default" padding="xl">
         <DefaultBlogSection />
+      </Section>
+
+      {/* FAQ Section */}
+      <Section background="default" padding="xl">
+        <DefaultFAQSection />
       </Section>
     </>
   );

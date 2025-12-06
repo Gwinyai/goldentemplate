@@ -32,13 +32,11 @@ export function FeaturesSection({
       <div className="container mx-auto px-container-mobile md:px-container max-w-page">
         {/* Header */}
         <div className="mx-auto max-w-4xl text-center mb-16">
-          <h2 className="text-4xl font-heading font-extrabold tracking-tight text-text-primary sm:text-5xl lg:text-6xl">
-            <span className="text-gradient-primary">
-              {title}
-            </span>
+          <h2 className="section-title">
+            <span>{title}</span>
           </h2>
           {subtitle && (
-            <p className="mt-8 text-xl leading-relaxed text-text-secondary">
+            <p className="mt-6 section-description">
               {subtitle}
             </p>
           )}

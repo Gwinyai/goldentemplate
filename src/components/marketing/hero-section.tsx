@@ -54,7 +54,7 @@ export function HeroSection({
                   {badge.href ? (
                     <Link
                       href={badge.href}
-                      className="inline-flex items-center gap-x-3 rounded-full bg-surface/80 backdrop-blur-sm px-4 py-2 text-sm ring-1 ring-border/30 hover:ring-border/50 transition-all duration-200 hover:scale-105"
+                      className="inline-flex items-center gap-x-3 rounded-full bg-surface px-4 py-2 text-sm border border-border hover:border-border-light hover:bg-muted/10 transition-all duration-200"
                     >
                       <span className="bg-white px-3 py-1 rounded-full text-xs font-semibold text-gray-800">New</span>
                       <span className="text-muted-foreground font-medium text-sm">Claude Skills and Rules</span>
@@ -95,7 +95,8 @@ export function HeroSection({
               <div className="mt-12 flex flex-col sm:flex-row items-center gap-4 animate-slide-in">
                 <Button 
                   size="lg" 
-                  className="btn-primary px-8 py-4 text-lg rounded-lg"
+                  variant="default"
+                  className="btn-primary"
                   asChild
                 >
                   <Link href={primaryCta.href}>
@@ -116,11 +117,11 @@ export function HeroSection({
                   </Link>
                 </Button>
                 {secondaryCta && (
-                <Button 
-                  variant="outline" 
-                  size="lg" 
-                  className="btn-secondary px-8 py-4 text-lg rounded-lg"
-                  asChild
+                  <Button 
+                    variant="secondary" 
+                    size="lg" 
+                    className="btn-secondary"
+                    asChild
                   >
                     <Link href={secondaryCta.href}>
                       {secondaryCta.text}
@@ -151,7 +152,7 @@ export function HeroSection({
                   </div>
                   <div>
                     <p className="font-semibold text-text-primary">967+ developers</p>
-                    <p className="text-text-muted">Already on VibeGuide</p>
+                    <p className="text-text-muted">Already on VibeCodeMax</p>
                   </div>
                   <div className="flex items-center gap-1 ml-4">
                     {[...Array(5)].map((_, i) => (
@@ -226,7 +227,7 @@ export function HeroSection({
                       </svg>
                     </div>
                     <p className="text-lg font-bold text-text-inverse drop-shadow-lg">
-                      VibeGuide Platform
+                      VibeCodeMax Platform
                     </p>
                     <p className="text-sm text-text-inverse/80 mt-2">
                       Boilerplate Generator
@@ -254,7 +255,7 @@ export function DefaultHeroSection() {
         href: "/features",
       }}
       headline="Build Production-Ready SaaS Faster"
-      subheadline="VibeGuide provides battle-tested boilerplates with authentication, payments, database, and deployment - so you can focus on what makes your product unique."
+      subheadline="VibeCodeMax provides battle-tested boilerplates with authentication, payments, database, and deployment - so you can focus on what makes your product unique."
       primaryCta={{
         text: "Start Building",
         href: "/register",
@@ -265,7 +266,7 @@ export function DefaultHeroSection() {
       }}
       image={{
         src: "/hero.png",
-        alt: "VibeGuide Platform - Launch faster",
+        alt: "VibeCodeMax Platform - Launch faster",
       }}
     />
   );

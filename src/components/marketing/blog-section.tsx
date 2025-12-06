@@ -61,11 +61,11 @@ export function BlogSection({
       <div className="container mx-auto px-6">
         {/* Header */}
         <div className="mx-auto max-w-3xl text-center mb-16">
-          <h2 className="text-3xl font-heading font-bold tracking-tight sm:text-4xl">
-            <span className="text-gradient-primary">{title}</span>
+          <h2 className="section-title">
+            <span>{title}</span>
           </h2>
           {subtitle && (
-            <p className="mt-6 text-lg leading-8 text-muted-foreground">
+            <p className="mt-6 section-description">
               {subtitle}
             </p>
           )}
@@ -281,7 +281,7 @@ export function DefaultBlogSection() {
     {
       slug: "getting-started-guide",
       title: "Building Your First SaaS in Days, Not Months",
-      excerpt: "Learn how to launch your production-ready SaaS application using VibeGuide's comprehensive boilerplate. Complete setup in under 30 minutes.",
+      excerpt: "Learn how to launch your production-ready SaaS application using VibeCodeMax's comprehensive boilerplate. Complete setup in under 30 minutes.",
       author: {
         name: "Alex Chen",
       },
@@ -293,7 +293,7 @@ export function DefaultBlogSection() {
     {
       slug: "best-practices",
       title: "Design Token Architecture: Building Scalable UI Systems",
-      excerpt: "Discover how VibeGuide's design token system enables consistent branding and rapid customization across your entire application.",
+      excerpt: "Discover how VibeCodeMax's design token system enables consistent branding and rapid customization across your entire application.",
       author: {
         name: "Sarah Rodriguez",
       },

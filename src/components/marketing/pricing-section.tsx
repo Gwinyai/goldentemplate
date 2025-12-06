@@ -47,19 +47,15 @@ export function PricingSection({
   };
 
   return (
-    <section className="py-16 sm:py-24 relative overflow-hidden">
-      {/* Background gradient */}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-muted/30 via-background to-muted/30" />
-      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_50%_50%,rgba(99,102,241,0.05),transparent_70%)]" />
-      
-      <div className="container mx-auto px-6">
+    <section className="py-16 sm:py-24">
+      <div className="container mx-auto px-container-mobile md:px-container max-w-page">
         {/* Header */}
         <div className="mx-auto max-w-3xl text-center mb-16">
-          <h2 className="text-3xl font-heading font-bold tracking-tight sm:text-4xl">
-            <span className="text-gradient-primary">{title}</span>
+          <h2 className="section-title">
+            <span>{title}</span>
           </h2>
           {subtitle && (
-            <p className="mt-6 text-lg leading-8 text-muted-foreground">
+            <p className="mt-6 section-description">
               {subtitle}
             </p>
           )}
@@ -67,30 +63,29 @@ export function PricingSection({
           {/* Billing Toggle */}
           {billingToggle && (
             <div className="mt-8 flex items-center justify-center">
-              <div className="flex items-center rounded-full bg-background p-1.5 shadow-lg ring-1 ring-border/50">
-                <button
-                  onClick={() => setBilling("monthly")}
-                  className={`rounded-full px-6 py-2.5 text-sm font-semibold transition-all duration-300 ${
-                    billing === "monthly"
-                      ? "bg-gradient-primary text-white shadow-primary"
-                      : "text-muted-foreground hover:text-foreground"
-                  }`}
-                >
-                  Monthly
-                </button>
-                <button
-                  onClick={() => setBilling("yearly")}
-                  className={`rounded-full px-6 py-2.5 text-sm font-semibold transition-all duration-300 relative ${
-                    billing === "yearly"
-                      ? "bg-gradient-primary text-white shadow-primary"
-                      : "text-muted-foreground hover:text-foreground"
-                  }`}
-                >
-                  Yearly
-                  <span className="ml-2 text-xs bg-accent text-white px-2 py-0.5 rounded-full font-bold shadow-sm">
-                    Save 20%
-                  </span>
-                </button>
+              <div className="relative inline-flex items-center rounded-full bg-surface border border-border px-1 py-1 shadow-lg overflow-hidden">
+                <span
+                  className="absolute inset-y-1 w-1/2 rounded-full bg-primary shadow-md transition-transform duration-300 ease-out z-0"
+                  style={{ transform: billing === "monthly" ? "translateX(0%)" : "translateX(100%)" }}
+                />
+                {(["monthly","yearly"] as const).map((option) => (
+                  <button
+                    key={option}
+                    onClick={() => setBilling(option)}
+                    className={`relative z-10 px-6 py-2.5 text-sm font-semibold transition-colors duration-300 rounded-full ${
+                      billing === option
+                        ? "text-white"
+                        : "text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    {option === "monthly" ? "Monthly" : "Yearly"}
+                    {option === "yearly" && (
+                      <span className="ml-2 text-xs bg-accent text-white px-2 py-0.5 rounded-full font-bold shadow-sm">
+                        Save 20%
+                      </span>
+                    )}
+                  </button>
+                ))}
               </div>
             </div>
           )}
@@ -107,16 +102,25 @@ export function PricingSection({
             return (
               <Card 
                 key={index}
-                className={`relative group transition-all duration-300 ${
+                className={`relative group transition-all duration-300 bg-surface/80 backdrop-blur-md border-border/60 ${
                   plan.popular 
-                    ? "ring-2 ring-primary shadow-primary-lg scale-105 bg-gradient-to-br from-primary/5 to-secondary/5" 
-                    : "hover:shadow-xl hover:-translate-y-1 border-border/50"
+                    ? "ring-2 ring-primary shadow-lg shadow-primary/30 lg:-translate-y-2"
+                    : "hover:shadow-lg hover:-translate-y-1"
                 }`}
               >
                 {plan.popular && (
                   <>
                     <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 z-10">
-                      <Badge className="bg-gradient-primary text-white shadow-primary px-4 py-1.5 font-bold">
+                      <Badge
+                        variant="default"
+                        className="border-transparent shadow-lg ring-1 px-4 py-1.5 font-bold hover:shadow-primary text-[var(--token-text-inverse)]"
+                        style={{
+                          backgroundColor: "var(--token-primary)",
+                          boxShadow: "0 10px 30px rgba(124, 58, 237, 0.35)",
+                          color: "var(--token-text-primary)",
+                          borderColor: "transparent",
+                        }}
+                      >
                         Most Popular
                       </Badge>
                     </div>
@@ -126,7 +130,7 @@ export function PricingSection({
                 )}
 
                 <CardHeader className="text-center pb-8 relative z-10">
-                  <CardTitle className={`text-xl ${plan.popular ? "text-gradient-primary" : ""}`}>
+                  <CardTitle className="text-xl text-text-primary">
                     {plan.name}
                   </CardTitle>
                   <CardDescription className="text-base mt-2">
@@ -135,7 +139,7 @@ export function PricingSection({
                   
                   <div className="mt-6">
                     <div className="flex items-center justify-center">
-                      <span className={`text-4xl font-bold ${plan.popular ? "text-gradient-primary" : ""}`}>
+                      <span className={`text-4xl font-bold ${plan.popular ? "text-gradient-primary" : "text-text-primary"}`}>
                         {formatPrice(currentPrice, plan.price.currency)}
                       </span>
                       {currentPrice > 0 && (
@@ -150,7 +154,7 @@ export function PricingSection({
                         <span className="line-through">
                           {formatPrice(plan.price.monthly * 12, plan.price.currency)}/year
                         </span>
-                        <span className="ml-2 text-green-600 font-medium">
+                        <span className="ml-2 text-success font-medium">
                           Save {yearlyDiscount}%
                         </span>
                       </div>
@@ -183,8 +187,8 @@ export function PricingSection({
 
                 <CardFooter>
                   <Button 
-                    className={`w-full ${plan.popular ? "bg-gradient-primary hover:shadow-primary-lg shadow-primary" : "border-primary/20 hover:bg-primary/5"} transition-all duration-300`}
-                    variant={plan.popular ? "default" : "outline"}
+                    className={`w-full transition-all duration-300 ${plan.popular ? "btn-primary" : "btn-secondary"}`}
+                    variant={plan.popular ? "default" : "secondary"}
                     size="lg"
                     asChild
                   >
@@ -315,7 +319,7 @@ export function DefaultPricingSection() {
   return (
     <PricingSection
       title="Choose Your Perfect Plan"
-      subtitle="Start building faster with VibeGuide. All plans include our core boilerplate and essential integrations."
+      subtitle="Start building faster with VibeCodeMax. All plans include our core boilerplate and essential integrations."
       plans={defaultPlans}
       billingToggle={true}
       defaultBilling="monthly"

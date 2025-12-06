@@ -30,6 +30,14 @@ function applyColorVariables(root: HTMLElement) {
   root.style.setProperty("--token-border-light", tokens.colors.border.light);
 }
 
+function applyRadiusVariables(root: HTMLElement) {
+  root.style.setProperty("--token-radius-sm", tokens.radius.sm);
+  root.style.setProperty("--token-radius-md", tokens.radius.md);
+  root.style.setProperty("--token-radius-lg", tokens.radius.lg);
+  root.style.setProperty("--token-radius-xl", tokens.radius.xl);
+  root.style.setProperty("--token-radius-pill", tokens.radius.pill);
+}
+
 /**
  * Apply design system settings to the document
  * Call this on app initialization to apply gradient/shadow settings
@@ -41,6 +49,7 @@ export function applyDesignSystemSettings() {
 
   // Sync CSS variables with current tokens so text-muted/foreground stays token-driven
   applyColorVariables(root);
+  applyRadiusVariables(root);
 
   // Apply gradient settings
   if (tokens.effects.gradients.enabled) {

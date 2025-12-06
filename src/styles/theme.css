@@ -94,3 +94,16 @@
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid color-mix(in srgb, var(--token-border-light) 50%, transparent);
 }
+
+/* Ensure bg-primary utility class is available */
+.bg-primary {
+  background-color: var(--token-primary) !important;
+}
+
+.text-primary {
+  color: var(--token-primary) !important;
+}
+
+.border-primary {
+  border-color: var(--token-primary) !important;
+}
