@@ -27,7 +27,7 @@ const StarRating = ({ rating = 5 }: { rating?: number }) => {
         <svg
           key={i}
           className={`h-4 w-4 ${
-            i < rating ? "text-yellow-400" : "text-gray-300"
+            i < rating ? "text-rating-active" : "text-rating-inactive"
           }`}
           fill="currentColor"
           viewBox="0 0 20 20"
@@ -54,7 +54,7 @@ export function TestimonialsSection({
 }: TestimonialsSectionProps) {
   return (
     <section className="py-section-mobile md:py-section relative">
-      <div className="container mx-auto px-6">
+      <div className="container mx-auto px-container-mobile md:px-container">
         {/* Header */}
         <div className="mx-auto max-w-4xl text-center mb-16">
           <h2 className="section-title">

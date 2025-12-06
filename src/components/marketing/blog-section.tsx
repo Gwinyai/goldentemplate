@@ -9,6 +9,7 @@ interface BlogPost {
   content?: string;
     author: {
       name: string;
+      avatar?: string;
     };
     publishedAt: string;
   readingTime: number;
@@ -57,7 +58,7 @@ export function BlogSection({
 
   return (
     <section className="py-section-mobile md:py-section relative">
-      <div className="container mx-auto px-6">
+      <div className="container mx-auto px-container-mobile md:px-container">
         {/* Header */}
         <div className="mx-auto max-w-3xl text-center mb-16">
           <h2 className="section-title">
@@ -142,7 +143,7 @@ function BlogCard({
         </div>
         
         <CardTitle className="line-clamp-2 leading-tight">
-          <Link href={`/blog/${post.slug}`} className="hover:text-primary transition-colors group-hover:text-primary">
+          <Link href={`/blog/${post.slug}`} className="text-text-primary hover:text-primary transition-colors group-hover:text-primary">
             {post.title}
           </Link>
         </CardTitle>
@@ -208,7 +209,7 @@ function BlogListItem({
         </div>
         
         <h3 className="text-xl font-semibold mb-2">
-          <Link href={`/blog/${post.slug}`} className="hover:text-primary transition-colors">
+          <Link href={`/blog/${post.slug}`} className="text-text-primary hover:text-primary transition-colors">
             {post.title}
           </Link>
         </h3>

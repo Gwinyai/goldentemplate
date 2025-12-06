@@ -96,11 +96,11 @@ const socialLinks = [
 export function SiteFooter() {
   return (
     <footer className="border-t bg-background">
-      <div className="container mx-auto px-6 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8">
+      <div className="container mx-auto px-container-mobile md:px-container py-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-8 text-center md:text-left">
           {/* Brand Section */}
-          <div className="lg:col-span-2">
-            <div className="flex items-center space-x-2 mb-4">
+          <div className="md:col-span-1 lg:col-span-2">
+            <div className="flex items-center space-x-2 mb-4 justify-center md:justify-start">
               <img
                 src="/logo.png"
                 alt="VibeCodeMax"
@@ -110,11 +110,11 @@ export function SiteFooter() {
                 VibeCodeMax
               </span>
             </div>
-            <p className="text-sm text-muted-foreground mb-6 max-w-xs">
+            <p className="text-sm text-muted-foreground mb-6 max-w-xs mx-auto md:mx-0">
               The modern SaaS boilerplate that gets you from idea to production in days, not months. Built with Next.js, TypeScript, and everything you need.
             </p>
             {/* Social Links */}
-            <div className="flex space-x-4">
+            <div className="flex space-x-4 justify-center md:justify-start">
               {socialLinks.map((social) => (
                 <Link
                   key={social.label}
@@ -130,28 +130,55 @@ export function SiteFooter() {
             </div>
           </div>
 
-          {/* Footer Links */}
-          {footerSections.map((section) => (
-            <div key={section.title}>
-              <h3 className="text-sm font-semibold text-foreground mb-4">
-                {section.title}
-              </h3>
-              <ul className="space-y-2">
-                {section.links.map((link) => (
-                  <li key={link.href}>
-                    <Link
-                      href={link.href}
-                      className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                      target={link.external ? "_blank" : undefined}
-                      rel={link.external ? "noopener noreferrer" : undefined}
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+          {/* First pair of footer sections (Product & Company) */}
+          <div className="md:col-span-1 lg:col-span-2 space-y-8 md:space-y-0 md:grid md:grid-cols-1 lg:grid-cols-2 md:gap-8">
+            {footerSections.slice(0, 2).map((section) => (
+              <div key={section.title}>
+                <h3 className="text-sm font-semibold text-foreground mb-4">
+                  {section.title}
+                </h3>
+                <ul className="space-y-2">
+                  {section.links.map((link) => (
+                    <li key={link.href}>
+                      <Link
+                        href={link.href}
+                        className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                        target={link.external ? "_blank" : undefined}
+                        rel={link.external ? "noopener noreferrer" : undefined}
+                      >
+                        {link.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+
+          {/* Second pair of footer sections (Legal & Support) */}
+          <div className="md:col-span-1 lg:col-span-2 space-y-8 md:space-y-0 md:grid md:grid-cols-1 lg:grid-cols-2 md:gap-8">
+            {footerSections.slice(2, 4).map((section) => (
+              <div key={section.title}>
+                <h3 className="text-sm font-semibold text-foreground mb-4">
+                  {section.title}
+                </h3>
+                <ul className="space-y-2">
+                  {section.links.map((link) => (
+                    <li key={link.href}>
+                      <Link
+                        href={link.href}
+                        className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                        target={link.external ? "_blank" : undefined}
+                        rel={link.external ? "noopener noreferrer" : undefined}
+                      >
+                        {link.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Bottom Section */}

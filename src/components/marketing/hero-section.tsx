@@ -44,20 +44,20 @@ export function HeroSection({
         <div className="lg:grid lg:grid-cols-12 lg:gap-8">
           {/* Content */}
           <div className="lg:col-span-7">
-            <div className="mx-auto max-w-2xl lg:mx-0">
+            <div className="mx-auto max-w-2xl lg:mx-0 text-center lg:text-left">
               {/* Badge */}
               {badge && (
-                <div className="mb-8">
+                <div className="mb-8 flex justify-center lg:justify-start">
                   {badge.href ? (
                     <Link
                       href={badge.href}
                       className="inline-flex items-center gap-x-3 rounded-full bg-surface px-4 py-2 text-sm border border-border hover:border-border-light hover:bg-muted/10 transition-all duration-200"
                     >
-                      <span className="bg-white px-3 py-1 rounded-full text-xs font-semibold text-gray-800">New</span>
+                      <span className="px-3 py-1 rounded-full text-xs font-semibold badge-new">New</span>
                       <span className="text-muted-foreground font-medium text-sm">Claude Skills and Rules</span>
-                      <div className="flex items-center justify-center w-5 h-5 bg-gray-100 rounded-full">
+                      <div className="flex items-center justify-center w-5 h-5 rounded-full icon-container">
                         <svg
-                          className="h-3 w-3 text-gray-600"
+                          className="h-3 w-3 icon-arrow"
                           fill="none"
                           viewBox="0 0 24 24"
                           stroke="currentColor"
@@ -80,16 +80,16 @@ export function HeroSection({
               )}
 
               {/* Headlines */}
-              <h1 className="text-5xl font-heading font-extrabold tracking-tight text-text-primary sm:text-6xl lg:text-7xl animate-fade-in">
+              <h1 className="text-5xl font-heading font-extrabold tracking-tight text-text-primary sm:text-6xl lg:text-7xl animate-fade-in text-center lg:text-left">
                 <span>Launch Your SaaS In </span>
                 <span className="text-gradient-primary">Just A Weekend</span>
               </h1>
-              <p className="mt-8 text-xl leading-relaxed text-text-secondary animate-slide-in">
+              <p className="mt-8 text-xl leading-relaxed text-text-secondary animate-slide-in text-center lg:text-left">
                 {subheadline}
               </p>
 
               {/* CTAs */}
-              <div className="mt-12 flex flex-col sm:flex-row items-center gap-4 animate-slide-in">
+              <div className="mt-12 flex flex-col sm:flex-row items-center gap-4 animate-slide-in justify-center lg:justify-start">
                 <Button 
                   size="lg" 
                   variant="default"
@@ -212,12 +212,12 @@ export function HeroSection({
             {["logo1.png", "logo2.png", "logo3.png"].map((logo) => (
               <div
                 key={logo}
-                className="h-32 w-60 rounded-lg flex items-center justify-center bg-surface/80 shadow-sm transition-all duration-200 hover:scale-105"
+                className="h-20 w-40 rounded-lg flex items-center justify-center bg-surface/80 shadow-sm transition-all duration-200 hover:scale-105"
               >
                 <img
                   src={`/${logo}`}
                   alt={`Featured on ${logo}`}
-                  className="h-28 w-auto object-contain"
+                  className="h-16 w-auto object-contain"
                 />
               </div>
             ))}

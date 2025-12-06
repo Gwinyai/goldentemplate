@@ -65,11 +65,8 @@ export function PricingSection({
             <div className="mt-8 flex items-center justify-center">
               <div className="relative inline-flex items-center rounded-full bg-surface border border-border px-1 py-1 shadow-lg overflow-hidden">
                 <span
-                  className="absolute inset-y-1 w-28 rounded-full bg-primary shadow-md transition-transform duration-300 ease-out z-0"
-                  style={{ 
-                    transform: billing === "monthly" ? "translateX(0.25rem)" : "translateX(calc(7rem + 0.25rem))",
-                    left: 0
-                  }}
+                  className={`absolute inset-y-1 w-28 rounded-full bg-primary shadow-md transition-transform duration-300 ease-out z-0 ${billing === "monthly" ? "billing-toggle-active" : "billing-toggle-yearly"}`}
+                  style={{ left: 0 }}
                 />
                 {(["monthly","yearly"] as const).map((option) => (
                   <button
@@ -111,13 +108,7 @@ export function PricingSection({
                     <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 z-10">
                       <Badge
                         variant="default"
-                        className="border-transparent shadow-lg ring-1 px-4 py-1.5 font-bold hover:shadow-primary text-[var(--token-text-inverse)]"
-                        style={{
-                          backgroundColor: "var(--token-primary)",
-                          boxShadow: "0 10px 30px rgba(124, 58, 237, 0.35)",
-                          color: "var(--token-text-primary)",
-                          borderColor: "transparent",
-                        }}
+                        className="border-transparent shadow-lg ring-1 px-4 py-1.5 font-bold hover:shadow-primary badge-popular"
                       >
                         Most Popular
                       </Badge>

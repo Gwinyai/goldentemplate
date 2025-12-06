@@ -370,3 +370,42 @@
 .tracking-wide {
   letter-spacing: 0.025em !important;
 }
+
+/* Rating and semantic utilities for proper design token usage */
+.text-rating-active { 
+  color: var(--token-warning) !important; 
+}
+
+.text-rating-inactive { 
+  color: var(--token-text-muted) !important; 
+}
+
+/* Pricing component specific utilities */
+.badge-popular {
+  background-color: var(--token-primary) !important;
+  box-shadow: 0 10px 30px rgba(124, 58, 237, 0.35) !important;
+  color: var(--token-text-primary) !important;
+  border-color: transparent !important;
+}
+
+.billing-toggle-active {
+  transform: translateX(0.25rem) !important;
+}
+
+.billing-toggle-yearly {
+  transform: translateX(calc(7rem + 0.25rem)) !important;
+}
+
+/* Hero section semantic utilities */
+.badge-new {
+  background-color: var(--token-text-primary) !important;
+  color: var(--token-text-inverse) !important;
+}
+
+.icon-container {
+  background-color: var(--token-surface) !important;
+}
+
+.icon-arrow {
+  color: var(--token-text-muted) !important;
+}
